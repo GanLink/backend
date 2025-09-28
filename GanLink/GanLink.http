@@ -1,0 +1,6 @@
+@GanLink_HostAddress = http://localhost:5081
+
+GET {{GanLink_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

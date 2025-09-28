@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "hyW4CVjra8o=",
+  "success": true,
+  "projectFilePath": "/Users/diegomora/Desktop/PERSONAL PROJECTS/csharp_dir/GanLink/GanLink/GanLink.csproj",
+  "expectedPackageFiles": [
+    "/Users/diegomora/.nuget/packages/microsoft.aspnetcore.openapi/9.0.5/microsoft.aspnetcore.openapi.9.0.5.nupkg.sha512",
+    "/Users/diegomora/.nuget/packages/microsoft.openapi/1.6.17/microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}
