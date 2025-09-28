@@ -10,4 +10,29 @@
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.5"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="BovinueSystem\Application\Internal\" />
+      <Folder Include="BovinueSystem\Domain\Models\" />
+      <Folder Include="BovinueSystem\Domain\Repositories\" />
+      <Folder Include="BovinueSystem\Domain\Services\" />
+      <Folder Include="BovinueSystem\Infraestructure\Persistence\EF\Configuration\Extensions\" />
+      <Folder Include="BovinueSystem\Infraestructure\Persistence\EF\Repositories\" />
+      <Folder Include="BovinueSystem\Interfaces\REST\" />
+      <Folder Include="FarmManagement\Application\Internal\" />
+      <Folder Include="FarmManagement\Domain\Models\" />
+      <Folder Include="FarmManagement\Domain\Repositories\" />
+      <Folder Include="FarmManagement\Domain\Services\" />
+      <Folder Include="FarmManagement\Infraestructure\Persistence\EF\Configuration\Extensions\" />
+      <Folder Include="FarmManagement\Infraestructure\Persistence\EF\Repositories\" />
+      <Folder Include="FarmManagement\Interfaces\REST\" />
+      <Folder Include="IAM\Application\Internal\" />
+      <Folder Include="IAM\Domain\Models\" />
+      <Folder Include="IAM\Domain\Repositories\" />
+      <Folder Include="IAM\Domain\Services\" />
+      <Folder Include="IAM\Infraestructure\Persistence\EF\Configuration\Extensions\" />
+      <Folder Include="IAM\Infraestructure\Persistence\EF\Repositories\" />
+      <Folder Include="IAM\Interfaces\REST\" />
+      <Folder Include="Shared\" />
+    </ItemGroup>
+
 </Project>
