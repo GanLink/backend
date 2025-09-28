@@ -10,10 +10,4 @@
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.5"/>
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="FarmManagement\" />
-      <Folder Include="IAM\" />
-      <Folder Include="Shared\" />
-    </ItemGroup>
-
 </Project>
