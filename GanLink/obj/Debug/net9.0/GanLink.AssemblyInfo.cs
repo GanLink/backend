@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GanLink")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d9ed7d004b1442a8443cb27febce2fcf1ed8c049")]
 [assembly: System.Reflection.AssemblyProductAttribute("GanLink")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GanLink")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
