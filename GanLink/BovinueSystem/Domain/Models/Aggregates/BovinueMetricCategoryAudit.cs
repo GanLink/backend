@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using EntityFrameworkCore.CreatedUpdatedDate.Contracts;
 
 namespace GanLink.BovinueSystem.Domain.Models.Aggregates;
 
-public partial class BovinueMetricCategory
+public partial class BovinueMetricCategory : IEntityWithCreatedUpdatedDate
 {
     /// <summary>Fecha/hora de creación (mapeada a 'CreatedAt').</summary>
     [Column("CreatedAt")]
