@@ -15,4 +15,5 @@ public partial class Bovinue
     /// Identificador de la granja (clave foránea con Farm).
     /// </summary>
     public int FarmId { get; private set; }
+    
 }
