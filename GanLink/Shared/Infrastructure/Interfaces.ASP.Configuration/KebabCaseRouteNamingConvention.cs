@@ -1,4 +1,6 @@
-﻿namespace GanLink.Shared.Infrastructure.Interfaces.ASP.Configuration;
+﻿using System.Linq;
+
+namespace GanLink.Shared.Infrastructure.Interfaces.ASP.Configuration;
 
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 

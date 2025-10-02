@@ -1,4 +1,7 @@
-﻿namespace GanLink.Shared.Infrastructure.Persistence.EFC.Repositories;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace GanLink.Shared.Infrastructure.Persistence.EFC.Repositories;
 
 using GanLink.Shared.Infrastructure.Persistence.EFC.Configuration;
 using Microsoft.EntityFrameworkCore;

@@ -1,4 +1,6 @@
-﻿namespace GanLink.Shared.Domain.Model.Aggregates;
+﻿using System.Collections.Generic;
+
+namespace GanLink.Shared.Domain.Model.Aggregates;
 
 using GanLink.Shared.Domain.Model.Events;
 

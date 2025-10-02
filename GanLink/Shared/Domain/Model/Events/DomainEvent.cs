@@ -1,4 +1,6 @@
-﻿namespace GanLink.Shared.Domain.Model.Events;
+﻿using System;
+
+namespace GanLink.Shared.Domain.Model.Events;
 
 public abstract class DomainEvent
 {

@@ -1,4 +1,6 @@
-﻿namespace GanLink.BovinueSystem.Domain.Models.Aggregates;
+﻿using System;
+
+namespace GanLink.BovinueSystem.Domain.Models.Aggregates;
 
 public partial class BovinueMetricParameter
 {
