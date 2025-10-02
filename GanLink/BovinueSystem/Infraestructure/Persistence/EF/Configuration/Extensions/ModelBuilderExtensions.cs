@@ -13,10 +13,13 @@ public static class ModelBuilderExtensions
         
         modelBuilder.Entity<BovinueMetricCategory>().HasKey(x => x.Id);
         modelBuilder.Entity<BovinueMetricCategory>().Property(x => x.Id).ValueGeneratedOnAdd();
-        modelBuilder.Entity<BovinueMetricCategory>().Property(x => x.Category);
+        modelBuilder.Entity<BovinueMetricCategory>().Property(x => x.Category)
+            .HasConversion<string>();
         
         modelBuilder.Entity<BovinueMetricParameter>().HasKey(x => x.Id);
         modelBuilder.Entity<BovinueMetricParameter>().Property(x => x.Id).ValueGeneratedOnAdd();
+        modelBuilder.Entity<BovinueMetricParameter>().Property(x => x.Parameter)
+            .HasConversion<string>();
         modelBuilder.Entity<BovinueMetricParameter>().HasOne(x => x.Category)
             .WithMany(o =>o.Parameters)
             .HasForeignKey(x => x.CategoryId);
