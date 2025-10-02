@@ -1,4 +1,3 @@
-using System;
 
 namespace GanLink.BovinueSystem.Domain.Models.Entities;
 
