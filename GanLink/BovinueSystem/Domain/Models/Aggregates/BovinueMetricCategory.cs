@@ -13,6 +13,8 @@ public partial class BovinueMetricCategory
     /// Nombre visible de la categoría. Ej.: "Eficiencia alimenticia".
     /// </summary>
     public string Category { get; set; } = string.Empty;
+    
+    public ICollection<BovinueMetricParameter> Parameters { get; set; }
 
     /// <summary>
     /// Constructor por defecto requerido por EF/Core serializers.

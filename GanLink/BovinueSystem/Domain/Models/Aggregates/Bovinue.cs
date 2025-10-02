@@ -1,11 +1,9 @@
-using System;
-
-namespace GanLink.BovinueSystem.Domain.Models.Entities;
+namespace GanLink.BovinueSystem.Domain.Models.Aggregates;
 
 /// <summary>
 /// Entidad principal que representa un bovino en el sistema
 /// </summary>
-public class Bovinue
+public partial class Bovinue
 {
     /// <summary>
     /// Identificador único del bovino

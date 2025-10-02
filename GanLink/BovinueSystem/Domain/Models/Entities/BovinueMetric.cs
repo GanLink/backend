@@ -1,4 +1,6 @@
 
+using GanLink.BovinueSystem.Domain.Models.Aggregates;
+
 namespace GanLink.BovinueSystem.Domain.Models.Entities;
 
 /// <summary>
@@ -25,6 +27,7 @@ public class BovinueMetric
     /// Identificador del bovino al que pertenece la métrica
     /// </summary>
     public long BovinueId { get; private set; }
+    public Bovinue Bovinue { get; private set; }
     
     /// <summary>
     /// Cantidad o valor numérico de la métrica
