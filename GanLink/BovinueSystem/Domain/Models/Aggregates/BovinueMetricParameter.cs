@@ -14,7 +14,7 @@ public partial class BovinueMetricParameter
     /// </summary>
     public long CategoryId { get; set; }
     public BovinueMetricCategory Category { get; set; }
-
+    
     /// <summary>
     /// Nombre del parámetro. Ej.: "Índice de conversión alimenticia".
     /// </summary>

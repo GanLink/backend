@@ -1,4 +1,5 @@
 using GanLink.BovinueSystem.Domain.Models.Aggregates;
+using GanLink.BovinueSystem.Domain.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace GanLink.BovinueSystem.Infraestructure.Persistence.EF.Configuration.Extensions;
@@ -20,7 +21,18 @@ public static class ModelBuilderExtensions
             .WithMany(o =>o.Parameters)
             .HasForeignKey(x => x.CategoryId);
         
-        
+        modelBuilder.Entity<BovinueMetric>().HasKey(x => x.Id);
+        modelBuilder.Entity<BovinueMetric>().Property(x => x.Id).ValueGeneratedOnAdd();
+        modelBuilder.Entity<BovinueMetric>().Property(x => x.Date);
+        modelBuilder.Entity<BovinueMetric>().Property(x => x.Quantity);
+        modelBuilder.Entity<BovinueMetric>().HasOne(x => x.Bovinue)
+            .WithMany(o => o.Metrics)
+            .HasForeignKey(x => x.BovinueId);
+        modelBuilder.Entity<BovinueMetric>().HasOne(x => x.Parameter)
+            .WithMany()
+            .HasForeignKey(x => x.BovinueMPId);
+
+
 
     }
 }

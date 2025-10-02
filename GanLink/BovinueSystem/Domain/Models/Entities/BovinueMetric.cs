@@ -6,7 +6,7 @@ namespace GanLink.BovinueSystem.Domain.Models.Entities;
 /// <summary>
 /// Entidad para representar una métrica de un bovino
 /// </summary>
-public class BovinueMetric
+public partial class BovinueMetric
 {
     /// <summary>
     /// Identificador único de la métrica
@@ -17,7 +17,7 @@ public class BovinueMetric
     /// Identificador del parámetro de métrica asociado
     /// </summary>
     public long BovinueMPId { get; private set; }
-    
+    public BovinueMetricParameter Parameter { get; private set; }
     /// <summary>
     /// Fecha de la medición
     /// </summary>

@@ -1,8 +1,7 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using EntityFrameworkCore.CreatedUpdatedDate.Contracts;
 
-namespace GanLink.BovinueSystem.Domain.Models.Aggregates;
+namespace GanLink.BovinueSystem.Domain.Models.Entities;
 
 public partial class BovinueMetric : IEntityWithCreatedUpdatedDate
 {

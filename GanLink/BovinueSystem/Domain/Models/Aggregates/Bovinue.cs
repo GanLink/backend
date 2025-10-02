@@ -1,3 +1,5 @@
+using GanLink.BovinueSystem.Domain.Models.Entities;
+
 namespace GanLink.BovinueSystem.Domain.Models.Aggregates;
 
 /// <summary>
@@ -18,6 +20,7 @@ public partial class Bovinue
     /// <summary>
     /// Constructor vacío para ORM
     /// </summary>
+    public ICollection<BovinueMetric> Metrics { get; set; }
     protected Bovinue() { }
     
     /// <summary>
