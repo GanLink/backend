@@ -4451,25 +4451,24 @@
     ]
   },
   "packageFolders": {
-    "/Users/diegomora/.nuget/packages/": {}
+    "C:\\Users\\MSI\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/diegomora/Desktop/PERSONAL PROJECTS/csharp_dir/GanLink/GanLink/GanLink.csproj",
+      "projectUniqueName": "C:\\Users\\MSI\\Development\\Ciclo_202502\\Moviles\\GanLink\\backend\\GanLink\\GanLink.csproj",
       "projectName": "GanLink",
-      "projectPath": "/Users/diegomora/Desktop/PERSONAL PROJECTS/csharp_dir/GanLink/GanLink/GanLink.csproj",
-      "packagesPath": "/Users/diegomora/.nuget/packages/",
-      "outputPath": "/Users/diegomora/Desktop/PERSONAL PROJECTS/csharp_dir/GanLink/GanLink/obj/",
+      "projectPath": "C:\\Users\\MSI\\Development\\Ciclo_202502\\Moviles\\GanLink\\backend\\GanLink\\GanLink.csproj",
+      "packagesPath": "C:\\Users\\MSI\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\MSI\\Development\\Ciclo_202502\\Moviles\\GanLink\\backend\\GanLink\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/diegomora/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\MSI\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
-        "/opt/homebrew/Cellar/dotnet/9.0.5/libexec/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4488,7 +4487,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.100"
+      "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
       "net9.0": {
@@ -4562,7 +4561,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/opt/homebrew/Cellar/dotnet/9.0.5/libexec/sdk/9.0.106/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
