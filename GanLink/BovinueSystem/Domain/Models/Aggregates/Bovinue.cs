@@ -1,46 +1,46 @@
-using System;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using GanLink.BovinueSystem.Domain.Models.Commands;
 
-namespace GanLink.BovinueSystem.Domain.Models.Entities;
+namespace GanLink.BovinueSystem.Domain.Models.Aggregates;
 
-/// <summary>
-/// Entidad principal que representa un bovino en el sistema
-/// </summary>
-public class Bovinue
+public partial class Bovinue
 {
-    /// <summary>
-    /// Identificador único del bovino
-    /// </summary>
-    public long Id { get; private set; }
-    
-    /// <summary>
-    /// Identificador de la granja a la que pertenece el bovino
-    /// </summary>
-    public long FarmId { get; private set; }
-    
-    /// <summary>
-    /// Constructor vacío para ORM
-    /// </summary>
-    protected Bovinue() { }
-    
-    /// <summary>
-    /// Constructor para crear un nuevo bovino
-    /// </summary>
-    public Bovinue(long farmId)
+    protected Bovinue()
     {
-        if (farmId <= 0)
-            throw new ArgumentException("FarmId debe ser mayor que 0", nameof(farmId));
-        
-        FarmId = farmId;
+        FarmId = 0;
+        deleted = false;
     }
-    
-    /// <summary>
-    /// Actualiza la granja a la que pertenece el bovino
-    /// </summary>
-    public void UpdateFarm(long farmId)
+
+    public Bovinue(CreateBovinueCommand command)
     {
-        if (farmId <= 0)
-            throw new ArgumentException("FarmId debe ser mayor que 0", nameof(farmId));
-        
-        FarmId = farmId;
+        FarmId = command.farmId;
+        deleted = false;
+    }
+
+    public long Id { get; set; }
+
+    [Required]
+    public long FarmId { get; set; }
+
+    [ForeignKey("FarmId")]
+    [Required]
+    public required Farm farm { get; set; }
+
+    [Required]
+    public bool deleted { get; set; }
+
+    public void UpdateFromCommand(UpdateBovinueCommand command)
+    {
+        FarmId = command.farmId;
+    }
+
+    public void DeleteFromCommand(DeleteBovinueCommand command)
+    {
+        // Defensa contra inconsistencias (ruta vs payload o mensajes mal formados)
+        if (command.id != this.Id)
+            throw new InvalidOperationException("El id del comando no coincide con la entidad Bovinue.");
+
+        if (!deleted) deleted = true; // idempotente
     }
 }
