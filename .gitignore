@@ -1,0 +1,96 @@
+## Ignorar archivos generados por Visual Studio / .NET
+# Carpetas de compilación y caché
+bin/
+obj/
+
+# Archivos específicos de usuario de Visual Studio
+*.user
+*.userosscache
+*.suo
+*.userprefs
+.vs/
+.vscode/
+*.vspscc
+*.vssscc
+
+# Archivos de caché y configuración de compilación
+*.AssemblyInfo.cs
+*.AssemblyInfoInputs.cache
+*.GeneratedMSBuildEditorConfig.editorconfig
+*.assets.cache
+*.csproj.AssemblyReference.cache
+*.cache
+*.dll.config
+
+# Archivos de ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# Archivos de resultado de compilación
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Archivos de configuración local
+appsettings.Development.json
+appsettings.Local.json
+*.Development.json
+
+# Archivos de MSTest
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# Archivos temporales de Visual Studio
+.builds
+*.pidb
+*.svclog
+*.scc
+ipch/
+*.aps
+*.ncb
+*.opendb
+*.opensdf
+*.sdf
+*.cachefile
+*.VC.db
+*.VC.VC.opendb
+
+# Herramientas VS para desarrollo web
+.ntvs_analysis.dat
+node_modules/
+
+# Archivos de publicación de Visual Studio
+*.[Pp]ublish.xml
+*.azurePubxml
+*.pubxml
+*.publishproj
+
+# SQL Server
+*.mdf
+*.ldf
+*.ndf
+
+# Logs
+*.log
+
+# Carpeta de paquetes NuGet
+packages/
+*.nupkg
+# Ignorar archivos de proyecto de paquetes excepto packages.config
+*.nuget.props
+*.nuget.targets
+
+# Rider
+.idea/
+*.sln.iml
+.idea/
+.idea/*
