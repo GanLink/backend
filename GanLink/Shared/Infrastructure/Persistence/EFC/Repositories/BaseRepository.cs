@@ -1,59 +1,58 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace GanLink.Shared.Infrastructure.Persistence.EFC.Repositories;
 
-namespace GanLink.Shared.Infrastructure.Persistence.EFC.Repositories;
-
+using GanLink.Shared.Domain.Repositories;
 using GanLink.Shared.Infrastructure.Persistence.EFC.Configuration;
 using Microsoft.EntityFrameworkCore;
-using GanLink.Shared.Domain.Repositories;
+
+
 
 /// <summary>
 ///     Base repository for all repositories
 /// </summary>
 /// <remarks>
-///     This class implements the basic CRUD operations for all repositories.
-///     It requires the entity type to be passed as a generic parameter.
-///     It also requires the context to be passed in the constructor.
+///     This class is used to define the basic CRUD operations for all repositories.
+///     This class implements the IBaseRepository interface.
 /// </remarks>
+/// <typeparam name="TEntity">
+///     The entity type for the repository
+/// </typeparam>
 public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
 {
-    protected readonly AppDbContext Context;
+    protected readonly GanLinkDBContext Context;
 
-    protected BaseRepository(AppDbContext context)
+    /// <summary>
+    ///     Default constructor for the base repository
+    /// </summary>
+    protected BaseRepository(GanLinkDBContext context)
     {
         Context = context;
     }
 
-    /// <inheritdoc />
+    // inheritedDoc
     public async Task AddAsync(TEntity entity)
     {
         await Context.Set<TEntity>().AddAsync(entity);
     }
 
-    /// <inheritdoc />
-    public async Task<TEntity?> FindByIdAsync(long id)
+    // inheritedDoc
+    public async Task<TEntity?> FindByIdAsync(int id)
     {
         return await Context.Set<TEntity>().FindAsync(id);
     }
 
-    public async Task<TEntity?> FindByEmailAsync(string email)
-    {
-        return await Context.Set<TEntity>().FindAsync(email);
-    }
-
-    /// <inheritdoc />
+    // inheritedDoc
     public void Update(TEntity entity)
     {
         Context.Set<TEntity>().Update(entity);
     }
 
-    /// <inheritdoc />
+    // inheritedDoc
     public void Remove(TEntity entity)
     {
         Context.Set<TEntity>().Remove(entity);
     }
 
-    /// <inheritdoc />
+    // inheritedDoc
     public async Task<IEnumerable<TEntity>> ListAsync()
     {
         return await Context.Set<TEntity>().ToListAsync();
