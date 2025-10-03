@@ -1,35 +1,25 @@
 ﻿using System;
+using GanLink.BovinueSystem.Domain.Models.ValueObjects;
 
 namespace GanLink.BovinueSystem.Domain.Models.Aggregates;
 
 public partial class BovinueMetricCategory
 {
-    /// <summary>
-    /// Identificador único de la categoría.
-    /// </summary>
-    public long Id { get; set; }
 
-    /// <summary>
-    /// Nombre visible de la categoría. Ej.: "Eficiencia alimenticia".
-    /// </summary>
-    public string Category { get; set; } = string.Empty;
+    public long Id { get; private set; }
 
-    /// <summary>
-    /// Constructor por defecto requerido por EF/Core serializers.
-    /// </summary>
+    public MetricCategory Category { get; private set; }
+    
+    public ICollection<BovinueMetricParameter> Parameters { get; private set; }
+
+
     public BovinueMetricCategory() {}
 
-    /// <summary>
-    /// Crea una categoría garantizando reglas mínimas.
-    /// </summary>
     public BovinueMetricCategory(string category)
     {
         ReassignCategory(category);
     }
 
-    /// <summary>
-    /// Renombra la categoría aplicando validaciones mínimas.
-    /// </summary>
     public void ReassignCategory(string category)
     {
         if (string.IsNullOrWhiteSpace(category))
@@ -38,7 +28,6 @@ public partial class BovinueMetricCategory
         category = category.Trim();
         if (category.Length > 100)
             throw new ArgumentException("Category excede 100 caracteres.", nameof(category));
-
-        Category = category;
+        
     }
 }
