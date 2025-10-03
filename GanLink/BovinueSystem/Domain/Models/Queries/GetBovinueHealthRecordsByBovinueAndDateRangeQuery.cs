@@ -1,4 +1,6 @@
-﻿namespace GanLink.BovinueSystem.Domain.Models.Queries;
+﻿using System;
+
+namespace GanLink.BovinueSystem.Domain.Models.Queries;
 
 public record GetBovinueHealthRecordsByBovinueAndDateRangeQuery(
     long bovinueId,

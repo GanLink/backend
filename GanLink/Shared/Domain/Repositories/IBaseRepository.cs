@@ -1,4 +1,7 @@
-﻿namespace GanLink.Shared.Domain.Repositories;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace GanLink.Shared.Domain.Repositories;
 
 /// <summary>
 ///     Base repository interface for all repositories

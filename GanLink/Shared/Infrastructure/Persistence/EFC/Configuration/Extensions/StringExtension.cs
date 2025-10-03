@@ -1,4 +1,8 @@
-﻿namespace GanLink.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace GanLink.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 
 using Humanizer;
   

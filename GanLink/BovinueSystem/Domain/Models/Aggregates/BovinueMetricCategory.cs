@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GanLink.BovinueSystem.Domain.Models.ValueObjects;
 
 namespace GanLink.BovinueSystem.Domain.Models.Aggregates;

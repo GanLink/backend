@@ -1,4 +1,6 @@
-﻿namespace GanLink.BovinueSystem.Domain.Models.Commands;
+﻿using System;
+
+namespace GanLink.BovinueSystem.Domain.Models.Commands;
 
 public record CreateBovinueHealthRecordCommand(
     long bovinueId,
