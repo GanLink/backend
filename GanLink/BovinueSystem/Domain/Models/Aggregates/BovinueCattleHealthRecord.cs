@@ -13,14 +13,6 @@ public partial class BovinueCattleHealthRecord
         deleted = false;
     }
 
-    public BovinueCattleHealthRecord(CreateBovinueCattleHealthRecordCommand command)
-    {
-        ActivityName = command.ActivityName;
-        Frequency = command.Frequency;
-        Description = command.Description;
-        deleted = false;
-    }
-
     public long Id { get; set; }
 
     [Required]
@@ -37,19 +29,5 @@ public partial class BovinueCattleHealthRecord
 
     [Required]
     public bool deleted { get; set; }
-
-    public void UpdateFromCommand(UpdateBovinueCattleHealthRecordCommand command)
-    {
-        ActivityName = command.ActivityName;
-        Frequency = command.Frequency;
-        Description = command.Description;
-    }
-
-    public void DeleteFromCommand(DeleteBovinueCattleHealthRecordCommand command)
-    {
-        if (command.Id != this.Id)
-            throw new InvalidOperationException("El id del comando no coincide con la entidad BovinueCattleHealthRecord.");
-
-        if (!deleted) deleted = true; // idempotente
-    }
+    
 }
