@@ -28,10 +28,10 @@ public static class ModelBuilderExtensions
         modelBuilder.Entity<BovinueMetric>().Property(x => x.Id).ValueGeneratedOnAdd();
         modelBuilder.Entity<BovinueMetric>().Property(x => x.Date);
         modelBuilder.Entity<BovinueMetric>().Property(x => x.Quantity);
-        modelBuilder.Entity<BovinueMetric>().HasOne(x => x.Bovinue)
-            .WithMany(o => o.Metrics)
+        modelBuilder.Entity<BovinueMetric>().HasOne(x => x.bovinue)
+            .WithMany()
             .HasForeignKey(x => x.BovinueId);
-        modelBuilder.Entity<BovinueMetric>().HasOne(x => x.Parameter)
+        modelBuilder.Entity<BovinueMetric>().HasOne(x => x.parameter)
             .WithMany()
             .HasForeignKey(x => x.BovinueMPId);
 
