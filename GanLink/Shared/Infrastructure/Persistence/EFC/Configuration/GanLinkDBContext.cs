@@ -1,4 +1,5 @@
-﻿using GanLink.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
+﻿using GanLink.IAM.Infraestructure.Persistence.EF.Configuration.Extensions;
+using GanLink.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace GanLink.Shared.Infrastructure.Persistence.EFC.Configuration;
