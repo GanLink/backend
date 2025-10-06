@@ -44,7 +44,7 @@ public partial class User
     public string Password { get; private set; }
     
     public ICollection<Farm> Farms { get; set; } = new List<Farm>();
-    
+  
     public User()
     {
         this.Username = string.Empty;

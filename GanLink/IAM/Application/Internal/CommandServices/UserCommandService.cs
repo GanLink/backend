@@ -58,10 +58,11 @@ public class UserCommandService(IUserRepository userRepository, IUnitOfWork unit
 
     public async Task<(User? user, string? token)> Handle(SignInCommand command)
     {
-        var user = await userRepository.FindUserByUsername(command.username);
-        
+        var user = await userRepository.FindUserByUsernameOrRuc(command.username);
+    
         if (user == null || !hashingService.VerifyPassword(command.password, user.Password))
             return (null, null);
+        
         var token = tokenService.GenerateToken(user);
         return (user, token);
     }

@@ -9,4 +9,5 @@ public interface IUserRepository : IBaseRepository<User>
     Task<User?> GetUserByIdAsync(int id);
     Task<User?> FindUserByEmail(string email);
     Task<User?> FindUserByUsername(string username);
+    Task<User?> FindUserByUsernameOrRuc(string usernameOrRuc);
 }
