@@ -13,7 +13,7 @@ public static class ModelBuilderExtensions
         modelBuilder.Entity<User>().Property(x => x.Firstname).IsRequired();
         modelBuilder.Entity<User>().Property(x => x.Lastname).IsRequired();
         modelBuilder.Entity<User>().Property(x => x.Email).IsRequired();
-        modelBuilder.OwnsOne(o => o.Ruc, r =>
+        modelBuilder.Entity<User>().OwnsOne(o => o.Ruc, r =>
         {
             r.Property(p => p.Number)
                 .HasColumnName("ruc")

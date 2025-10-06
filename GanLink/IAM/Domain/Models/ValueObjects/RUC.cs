@@ -8,7 +8,7 @@ public record RUC
     /// <summary>
     /// Gets the RUC number as a string.
     /// </summary>
-    public string Number { get; }
+    public string Number { get; private set; }
     
     /// <summary>
     /// Initializes a new instance of the <see cref="RUC"/> record with the specified RUC number.
