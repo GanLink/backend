@@ -1,19 +1,48 @@
-﻿namespace GanLink.BovinueSystem.Domain.Models.Aggregates;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using GanLink.BovinueSystem.Domain.Models.Commands;
+using GanLink.FarmManagement.Domain.Models.Aggregates;
 
-/// <summary>
-/// Representa un bovino dentro del sistema Bovinue.
-/// Solo contiene la referencia a la granja a la que pertenece.
-/// </summary>
+namespace GanLink.BovinueSystem.Domain.Models.Aggregates;
+
 public partial class Bovinue
 {
-    /// <summary>
-    /// Identificador único del bovino.
-    /// </summary>
-    public int Id { get; private set; }
+    protected Bovinue()
+    {
+        FarmId = 0;
+        deleted = false;
+    }
 
-    /// <summary>
-    /// Identificador de la granja (clave foránea con Farm).
-    /// </summary>
-    public int FarmId { get; private set; }
-    
+    public Bovinue(CreateBovinueCommand command)
+    {
+        FarmId = command.farmId;
+        deleted = false;
+    }
+
+    public long Id { get; set; }
+
+    [Required]
+    public long FarmId { get; set; }
+
+    [ForeignKey("FarmId")]
+    [Required]
+    public required Farm farm { get; set; }
+
+    [Required]
+    public bool deleted { get; set; }
+
+    public void UpdateFromCommand(UpdateBovinueCommand command)
+    {
+        FarmId = command.farmId;
+    }
+
+    public void DeleteFromCommand(DeleteBovinueCommand command)
+    {
+        // Defensa contra inconsistencias (ruta vs payload o mensajes mal formados)
+        if (command.id != this.Id)
+            throw new InvalidOperationException("El id del comando no coincide con la entidad Bovinue.");
+
+        if (!deleted) deleted = true; // idempotente
+    }
 }
