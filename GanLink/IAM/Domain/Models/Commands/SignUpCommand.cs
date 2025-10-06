@@ -1,10 +1,13 @@
 ﻿using System;
+using GanLink.IAM.Domain.Models.ValueObjects;
 
 namespace GanLink.IAM.Domain.Models.Commands;
 
-public record SignUpCommand(string Username, 
+public record SignUpCommand(
+    string Username,
+    string FirstName,
+    string LastName,
     string Email,
-    string Password, 
-    string TypeUser, 
-    TimeSpan MaxDailyReservationHour, 
-    string IdentificationUser );
+    string Ruc,
+    string Password
+    );

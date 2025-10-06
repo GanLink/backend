@@ -58,7 +58,7 @@ public class UserCommandService(IUserRepository userRepository, IUnitOfWork unit
 
     public async Task<(User? user, string? token)> Handle(SignInCommand command)
     {
-        var user = await userRepository.FindUserByEmail(command.email);
+        var user = await userRepository.FindUserByEmail(command.username);
         
         if (user == null || !hashingService.VerifyPassword(command.password, user.Password))
             return (null, null);

@@ -22,13 +22,10 @@ public class UserRepository(GanLinkDBContext context) : BaseRepository<User>(con
         return await Context.Set<User>().FirstOrDefaultAsync(f => f.Email == email);
     }
 
-    public async Task<IEnumerable<User>> FindUsersByEmail(string typeUser)
-    {
-        return await Context.Set<User>().Where(f => f.TypeUser == typeUser).ToListAsync();
-    }
-
     public async Task<User?> FindUserByUsername(string username)
     {
         return await  Context.Set<User>().FirstOrDefaultAsync(f => f.Username == username);
     }
+    
+    
 }
