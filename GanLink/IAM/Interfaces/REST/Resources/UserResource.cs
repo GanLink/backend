@@ -7,6 +7,6 @@ public record UserResource(string Username,
     string FirstName,
     string LastName,
     string Email,
-    RUC Ruc,
+    string Ruc,
     string Password 
     );

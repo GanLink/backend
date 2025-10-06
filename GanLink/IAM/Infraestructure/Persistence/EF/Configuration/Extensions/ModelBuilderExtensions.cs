@@ -17,17 +17,7 @@ public static class ModelBuilderExtensions
             b.Property(x => x.Lastname).IsRequired();
             b.Property(x => x.Email).IsRequired();
 
-            b.OwnsOne(x => x.Ruc, r =>
-            {
-                r.ToTable("user_rucs");
-                r.WithOwner().HasForeignKey("user_id"); // FK a users(id)
-                r.HasKey("user_id");                     // PK de la tabla owned
-                r.Property(p => p.Number)
-                    .HasColumnName("ruc")
-                    .HasColumnType("varchar(11)")
-                    .HasMaxLength(11)
-                    .IsRequired();
-            });
+            b.Property(x => x.Ruc).IsRequired();
 
 
             b.Property(x => x.Password).IsRequired();

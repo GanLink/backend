@@ -15,7 +15,7 @@ public partial class User
         Firstname = command.FirstName;
         Lastname = command.LastName;
         Email = command.Email;
-        Ruc = new RUC(command.Ruc);
+        Ruc = command.Ruc;
         Password = hashedPassword;
     }
     public int Id { get; set; }
@@ -35,10 +35,7 @@ public partial class User
     [Required]
     [StringLength(20)] 
     public string Email { get; private set; }
-    
-    [Required]
-    [StringLength(20)]
-    public RUC Ruc { get; private set; }
+    public string Ruc { get; private set; }
     
     [Required]
     public string Password { get; private set; }
@@ -51,7 +48,7 @@ public partial class User
         this.Firstname = string.Empty;
         this.Lastname = string.Empty;
         this.Email = string.Empty;
-        this.Ruc = new RUC(string.Empty);
+        this.Ruc = string.Empty;
         this.Password = string.Empty;
     }
 }
