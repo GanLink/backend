@@ -1,3 +1,3 @@
 ﻿namespace GanLink.FarmManagement.Domain.Models.Queries;
 
-public record GetFarmByIdQuery();
+public record GetFarmByIdQuery(int id);

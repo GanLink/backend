@@ -1,13 +1,13 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using GanLink.FarmManagement.Domain.Models.Aggregates;
 using GanLink.Shared.Domain.Repositories;
 
-namespace GanLink.FarmManagement.Domain.Repositories;
-
 public interface IFarmRepository : IBaseRepository<Farm>
 {
-    Task<Farm?> GetByIdAsync(int id);
-    
-    Task<Farm?> GetByUserId(int userId);
-    
+    Task<Farm?> GetByIdAsync(int id, CancellationToken ct = default);
+    Task<List<Farm>> ListByUserIdAsync(int userId, CancellationToken ct = default);
+    Task<Farm?> GetFirstByUserIdAsync(int userId, CancellationToken ct = default); // opcional
+    Task<bool> AliasExistsAsync(int userId, string alias, CancellationToken ct = default); // opcional
 }

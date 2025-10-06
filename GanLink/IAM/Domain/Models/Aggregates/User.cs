@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using GanLink.FarmManagement.Domain.Models.Aggregates;
 using GanLink.IAM.Domain.Models.Commands;
 
 namespace GanLink.IAM.Domain.Models.Aggregates;
@@ -33,8 +34,7 @@ public partial class User
     [StringLength(50)]
     public string IdentificationUser { get; private set; }
     
-    //public ICollection<PaymentInformation> PaymentInformation { get; set; } = new List<PaymentInformation>();
-    //public ICollection<Rent> Rents { get; set; } = new List<Rent>();
+    public ICollection<Farm> Farms { get; set; } = new List<Farm>();
     
     public User()
     {
