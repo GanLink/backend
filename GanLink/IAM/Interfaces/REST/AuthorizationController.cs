@@ -25,7 +25,7 @@ public class AuthorizationController(IUserCommandService userCommandService) : C
         var authenticatedUser = await userCommandService.Handle(signInCommand);
 
         if (authenticatedUser.user == null || authenticatedUser.token == null)
-            return Unauthorized("NO_EMAIL_FOUND");
+            return Unauthorized("NO_USERNAME_FOUND");
                 
         var resource = AuthenticatedUserResourceFromEntityAssembler
             .ToResourceFromEntity(authenticatedUser.user, authenticatedUser.token);

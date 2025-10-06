@@ -14,7 +14,7 @@ public class UserCommandService(IUserRepository userRepository, IUnitOfWork unit
 {
     public async Task<User?> Handle(SignUpCommand command)
     {
-        var user = await userRepository.FindUserByEmail(command.Email);
+        var user = await userRepository.FindUserByUsername(command.Username);
 
         if (user != null)
             return null;
@@ -58,7 +58,7 @@ public class UserCommandService(IUserRepository userRepository, IUnitOfWork unit
 
     public async Task<(User? user, string? token)> Handle(SignInCommand command)
     {
-        var user = await userRepository.FindUserByEmail(command.username);
+        var user = await userRepository.FindUserByUsername(command.username);
         
         if (user == null || !hashingService.VerifyPassword(command.password, user.Password))
             return (null, null);
