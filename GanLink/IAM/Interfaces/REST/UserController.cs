@@ -13,8 +13,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GanLink.IAM.Interfaces;
 
-[Authorize]
-[ApiController]
 [Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
 [Tags("User API")]

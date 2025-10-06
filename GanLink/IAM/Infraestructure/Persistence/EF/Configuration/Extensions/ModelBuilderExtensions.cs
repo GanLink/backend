@@ -7,19 +7,30 @@ public static class ModelBuilderExtensions
 {
     public static void ApplyIamConfiguration(this ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>().HasKey(x => x.Id);
-        modelBuilder.Entity<User>().Property(x => x.Id).ValueGeneratedOnAdd();
-        modelBuilder.Entity<User>().Property(x => x.Username).IsRequired();
-        modelBuilder.Entity<User>().Property(x => x.Firstname).IsRequired();
-        modelBuilder.Entity<User>().Property(x => x.Lastname).IsRequired();
-        modelBuilder.Entity<User>().Property(x => x.Email).IsRequired();
-        modelBuilder.OwnsOne(o => o.Ruc, r =>
+        modelBuilder.Entity<User>(b =>
         {
-            r.Property(p => p.Number)
-                .HasColumnName("ruc")
-                .HasMaxLength(11)
-                .IsRequired();
+            b.HasKey(x => x.Id);
+            b.Property(x => x.Id).ValueGeneratedOnAdd();
+
+            b.Property(x => x.Username).IsRequired();
+            b.Property(x => x.Firstname).IsRequired();
+            b.Property(x => x.Lastname).IsRequired();
+            b.Property(x => x.Email).IsRequired();
+
+            b.OwnsOne(x => x.Ruc, r =>
+            {
+                r.ToTable("user_rucs");
+                r.WithOwner().HasForeignKey("user_id"); // FK a users(id)
+                r.HasKey("user_id");                     // PK de la tabla owned
+                r.Property(p => p.Number)
+                    .HasColumnName("ruc")
+                    .HasColumnType("varchar(11)")
+                    .HasMaxLength(11)
+                    .IsRequired();
+            });
+
+
+            b.Property(x => x.Password).IsRequired();
         });
-        modelBuilder.Entity<User>().Property(x => x.Password).IsRequired();
     }
 }

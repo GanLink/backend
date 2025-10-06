@@ -41,7 +41,6 @@ public partial class User
     public RUC Ruc { get; private set; }
     
     [Required]
-    [StringLength(20)]
     public string Password { get; private set; }
     
     public ICollection<Farm> Farms { get; set; } = new List<Farm>();

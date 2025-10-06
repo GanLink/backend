@@ -153,7 +153,6 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
-app.UseRequestAuthorizationMiddleware();
 //Mapping Controllers EndPoints
 app.MapControllers();
 
