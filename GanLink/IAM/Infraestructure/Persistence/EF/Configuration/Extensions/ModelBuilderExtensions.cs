@@ -13,7 +13,13 @@ public static class ModelBuilderExtensions
         modelBuilder.Entity<User>().Property(x => x.Firstname).IsRequired();
         modelBuilder.Entity<User>().Property(x => x.Lastname).IsRequired();
         modelBuilder.Entity<User>().Property(x => x.Email).IsRequired();
-        modelBuilder.Entity<User>().Property(x => x.Ruc).IsRequired();
+        modelBuilder.OwnsOne(o => o.Ruc, r =>
+        {
+            r.Property(p => p.Number)
+                .HasColumnName("ruc")
+                .HasMaxLength(11)
+                .IsRequired();
+        });
         modelBuilder.Entity<User>().Property(x => x.Password).IsRequired();
     }
 }

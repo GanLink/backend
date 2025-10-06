@@ -1,9 +1,16 @@
+using GanLink.FarmManagement.Application.Internal.QueryServices;
+using GanLink.FarmManagement.Domain.Services;
+using GanLink.FarmManagement.Infraestructure.Persistence.EF.Repositories;
 using GanLink.IAM.Application.Internal.CommandServices;
+using GanLink.IAM.Application.Internal.OutboundServices;
 using GanLink.IAM.Application.Internal.QueryServices;
 using GanLink.IAM.Domain.Repositories;
 using GanLink.IAM.Domain.Services;
+using GanLink.IAM.Infraestructure.Hashing.BCrypt.Services;
 using GanLink.IAM.Infraestructure.Persistence.EF.Repositories;
 using GanLink.IAM.Infraestructure.Pipeline.Middleware.Extensions;
+using GanLink.IAM.Infraestructure.Token.JWT.Configuration;
+using GanLink.IAM.Infraestructure.Token.JWT.Services;
 using GanLink.Shared.Domain.Repositories;
 using GanLink.Shared.Infrastructure.Persistence.EFC.Configuration;
 using GanLink.Shared.Infrastructure.Persistence.EFC.Repositories;
@@ -113,6 +120,22 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserCommandService, UserCommandService>();
 builder.Services.AddScoped<IUserQueryService, UserQueryService>();
 
+// Shared Bounded Context Injection Configuration
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserQueryService, UserQueryService>();
+builder.Services.AddScoped<IUserCommandService, UserCommandService>();
+
+// IAM Bounded Context Dependency Injection Configuration
+builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("TokenSettings"));
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserCommandService, UserCommandService>();
+builder.Services.AddScoped<IUserQueryService, UserQueryService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IHashingService, HashingService>();
+
 var app = builder.Build();
 
 //Add scope for our DbContext
@@ -135,7 +158,3 @@ app.UseRequestAuthorizationMiddleware();
 app.MapControllers();
 
 app.Run();
-
-
-app.Run();
-
