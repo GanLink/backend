@@ -7,6 +7,6 @@ public static  class SignInCommandFromResourceAssembler
 {
     public static SignInCommand ToCommandFromResource(SignInResource signInResource)
     {
-        return new SignInCommand(signInResource.Username, signInResource.Password);
+        return new SignInCommand(signInResource.username, signInResource.password);
     }
 }

@@ -51,7 +51,7 @@ public partial class User
         this.Firstname = string.Empty;
         this.Lastname = string.Empty;
         this.Email = string.Empty;
-        this.Ruc = new RUC(string.Empty);
+        this.Ruc = new RUC("10000000000");
         this.Password = string.Empty;
     }
 }

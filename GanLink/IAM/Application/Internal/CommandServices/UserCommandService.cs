@@ -10,7 +10,7 @@ using GanLink.Shared.Domain.Repositories;
 namespace GanLink.IAM.Application.Internal.CommandServices;
 
 public class UserCommandService(IUserRepository userRepository, IUnitOfWork unitOfWork,
-    IHashingService hashingService, ITokenService tokenService) : IUserCommandService
+    IHashingService hashingService) : IUserCommandService
 {
     public async Task<User?> Handle(SignUpCommand command)
     {
@@ -56,13 +56,12 @@ public class UserCommandService(IUserRepository userRepository, IUnitOfWork unit
         
     }
 
-    public async Task<(User? user, string? token)> Handle(SignInCommand command)
+    public async Task<User?> Handle(SignInCommand command)
     {
         var user = await userRepository.FindUserByUsername(command.username);
-        
-        if (user == null || !hashingService.VerifyPassword(command.password, user.Password))
-            return (null, null);
-        var token = tokenService.GenerateToken(user);
-        return (user, token);
+        if (user == null)
+            throw new Exception($"User with username {command.username} doesnt exists.");
+ 
+        return user;
     }
 }

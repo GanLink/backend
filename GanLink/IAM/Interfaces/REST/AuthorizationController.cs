@@ -9,28 +9,21 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace GanLink.IAM.Interfaces.REST;
 
-[Authorize]
-[ApiController]
 [Route("api/v1/[controller]")]
 [SwaggerTag("Authorization API Controller")]
 [Produces(MediaTypeNames.Application.Json)]
 public class AuthorizationController(IUserCommandService userCommandService) : ControllerBase
 {
-    
-    [AllowAnonymous]
     [HttpPost("sign-in")]
     public async Task<IActionResult> SignIn([FromBody] SignInResource signInResource)
     {
         var signInCommand = SignInCommandFromResourceAssembler.ToCommandFromResource(signInResource);
         var authenticatedUser = await userCommandService.Handle(signInCommand);
-
-        if (authenticatedUser.user == null || authenticatedUser.token == null)
-            return Unauthorized("NO_USERNAME_FOUND");
-                
-        var resource = AuthenticatedUserResourceFromEntityAssembler
-            .ToResourceFromEntity(authenticatedUser.user, authenticatedUser.token);
         
-        return Ok(resource);
+        if (authenticatedUser == null)
+            return NotFound();
+        
+        return Ok(authenticatedUser);
     }
 
 

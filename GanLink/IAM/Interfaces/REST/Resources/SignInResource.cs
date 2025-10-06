@@ -1,3 +1,3 @@
 ﻿namespace GanLink.IAM.Interfaces.REST.Resources;
 
-public record SignInResource(string Username, string Password);
+public record SignInResource(string username, string password);

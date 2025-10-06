@@ -19,6 +19,16 @@ public record RUC
     /// </exception>
     public RUC(string number)
     {
+        Console.WriteLine(number);
+        Console.WriteLine(number);
+        Console.WriteLine(number);
+        Console.WriteLine(number);
+        Console.WriteLine(number);
+        Console.WriteLine(number);
+        Console.WriteLine(number);
+        Console.WriteLine(number);
+        Console.WriteLine(number);
+        Console.WriteLine(number);
         if (string.IsNullOrWhiteSpace(number))
         {
             throw new ArgumentException("RUC number is required");
@@ -33,7 +43,6 @@ public record RUC
         }
         Number = number;
     }
-    
     /// <summary>
     /// Returns the string representation of the RUC number.
     /// </summary>
