@@ -8,11 +8,11 @@ public static class SignUpCommandFromResourceAssembler
     public static SignUpCommand ToCommandFromResource(SignUpResource resource)
     {
         return new SignUpCommand(resource.Username,
+            resource.FirstName,
+            resource.LastName,
             resource.Email,
-            resource.Password, 
-            resource.TypeUser, 
-            resource.MaxDailyReservationHour,
-            resource.IdentificationUser
-        );
+            resource.Ruc,
+            resource.Password
+            );
     }
 }

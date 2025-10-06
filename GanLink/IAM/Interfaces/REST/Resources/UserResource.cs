@@ -1,10 +1,12 @@
 ﻿using System;
+using GanLink.IAM.Domain.Models.ValueObjects;
 
 namespace GanLink.IAM.Interfaces.REST.Resources;
 
-public record UserResource(string Username, 
+public record UserResource(string Username,
+    string FirstName,
+    string LastName,
     string Email,
-    string Password, 
-    string TypeUser, 
-    TimeSpan MaxDailyReservationHour, 
-    string IdentificationUser );
+    RUC Ruc,
+    string Password 
+    );

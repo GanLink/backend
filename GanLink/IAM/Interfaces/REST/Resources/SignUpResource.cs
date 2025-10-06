@@ -2,9 +2,9 @@
 
 namespace GanLink.IAM.Interfaces.REST.Resources;
 
-public record SignUpResource(string Username, 
+public record SignUpResource(string Username,
+    string FirstName,
+    string LastName,
     string Email,
-    string Password, 
-    string TypeUser, 
-    TimeSpan MaxDailyReservationHour, 
-    string IdentificationUser );
+    string Ruc,
+    string Password);

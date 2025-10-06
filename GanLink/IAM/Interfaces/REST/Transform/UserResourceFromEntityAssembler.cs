@@ -6,8 +6,7 @@ namespace GanLink.IAM.Interfaces.REST.Transform;
 public static class UserResourceFromEntityAssembler
 {
     public static UserResource ToResourceFromEntity(User entity)
-        => new UserResource(entity.Username, entity.Email,
-            entity.Password, entity.TypeUser,
-            entity.MaxDailyReservationHour,
-            entity.IdentificationUser);
+        => new UserResource(entity.Username, entity.Firstname, entity.Lastname, entity.Email,
+            entity.Ruc,
+            entity.Password);
 }

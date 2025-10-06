@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using GanLink.FarmManagement.Domain.Models.Aggregates;
 using GanLink.IAM.Domain.Models.Commands;
+using GanLink.IAM.Domain.Models.ValueObjects;
 
 namespace GanLink.IAM.Domain.Models.Aggregates;
 
@@ -10,39 +12,47 @@ public partial class User
     public User(SignUpCommand command, string hashedPassword)
     {
         Username = command.Username;
+        Firstname = command.FirstName;
+        Lastname = command.LastName;
         Email = command.Email;
+        Ruc = new RUC(command.Ruc);
         Password = hashedPassword;
-        TypeUser = command.TypeUser;
-        MaxDailyReservationHour = command.MaxDailyReservationHour;
-        IdentificationUser = command.IdentificationUser;
     }
     public int Id { get; set; }
-    [Required]
-    [StringLength(50)]
-    public string Username { get; private set; }
-    [Required]
-    [StringLength(100)]
-    public string Email { get; private set; }
-    [Required]
-    public string Password { get; private set; }
+    
     [Required]
     [StringLength(10)]
-    public string TypeUser { get; private set; }
-    [Required]
-    public TimeSpan MaxDailyReservationHour { get; private set; }
-    [StringLength(50)]
-    public string IdentificationUser { get; private set; }
+    public string Username { get; private set; }
     
-    //public ICollection<PaymentInformation> PaymentInformation { get; set; } = new List<PaymentInformation>();
-    //public ICollection<Rent> Rents { get; set; } = new List<Rent>();
+    [Required]
+    [StringLength(10)]
+    public string Firstname { get; private set; }
+    
+    [Required]
+    [StringLength(20)]
+    public string Lastname { get; private set; }
+    
+    [Required]
+    [StringLength(20)] 
+    public string Email { get; private set; }
+    
+    [Required]
+    [StringLength(20)]
+    public RUC Ruc { get; private set; }
+    
+    [Required]
+    [StringLength(20)]
+    public string Password { get; private set; }
+    
+    public ICollection<Farm> Farms { get; set; } = new List<Farm>();
     
     public User()
     {
         this.Username = string.Empty;
+        this.Firstname = string.Empty;
+        this.Lastname = string.Empty;
         this.Email = string.Empty;
+        this.Ruc = new RUC(string.Empty);
         this.Password = string.Empty;
-        this.TypeUser = string.Empty;
-        this.MaxDailyReservationHour = TimeSpan.Zero;
-        this.IdentificationUser = string.Empty;
     }
 }
