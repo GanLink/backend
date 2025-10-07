@@ -94,4 +94,15 @@ public class UserController(
     
         return NoContent();
     }
+
+    [HttpGet("{id}/farms")]
+    public async Task<IActionResult> GetFarms([FromRoute] int id)
+    {
+        var getFarmsQuery = new GetUserFarmsById(id);
+        var farms  = await userQueryService.Handle(getFarmsQuery);
+        
+        if(farms.Count == 0)
+            return NoContent();
+        return Ok(farms);
+    }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using GanLink.FarmManagement.Domain.Models.Aggregates;
 using GanLink.IAM.Domain.Models.Aggregates;
 using GanLink.IAM.Domain.Models.Queries;
 
@@ -11,4 +12,5 @@ public interface IUserQueryService
     Task<User?> Handle(GetUserByIdQuery query);
     Task<User?> Handle(GetUserByEmail query);
     Task<User?> Handle(GetUserByUsername query);
+    Task<List<Farm>>Handle(GetUserFarmsById query);
 }
