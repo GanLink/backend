@@ -1,4 +1,5 @@
-﻿using GanLink.IAM.Infraestructure.Persistence.EF.Configuration.Extensions;
+﻿using GanLink.FarmManagement.Infraestructure.Persistence.EF.Configuration.Extensions;
+using GanLink.IAM.Infraestructure.Persistence.EF.Configuration.Extensions;
 using GanLink.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,6 +29,8 @@ public class GanLinkDBContext : DbContext
         // add builder entities
         
         modelBuilder.ApplyIamConfiguration();
+        
+        modelBuilder.ApplyFarmingConfiguration();
         
         modelBuilder.UseSnakeCaseNamingConvention();
     }

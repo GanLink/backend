@@ -36,10 +36,10 @@ public class FarmController(
     }
     
     [HttpGet("{id}")]
-    [SwaggerOperation(Summary = "Gets a Rent according to id", Description = "Gets a Rent according to id",
-        OperationId = "GetsRentById")]
+    [SwaggerOperation(Summary = "Gets a Farm according to id", Description = "Gets a Farm according to id",
+        OperationId = "GetsFarmById")]
 
-    public async Task<ActionResult> GetRentById(int id)
+    public async Task<ActionResult> GetFarmById(int id)
     {
         var getFarmById = new GetFarmByIdQuery(id);
         var result = await farmQueryService.Handle(getFarmById);
@@ -47,7 +47,7 @@ public class FarmController(
         var resource = FarmResourceFromEntityAssembler.ToResourceFromEntity(result);
         return Ok(resource);
     }
-    [HttpPost("delete")]
+    [HttpDelete("delete")]
     [SwaggerOperation(Summary = "Delete a Farm according to id", Description = "Delete a Farm according to id",
         OperationId = "DeleteFarmById")]
 
@@ -57,17 +57,18 @@ public class FarmController(
         await farmCommandService.Handle(deleteFarmById);
         return Ok();
     }
-    [HttpGet("user/{userid}")]
-    [SwaggerOperation(Summary = "Gets a Farm according to user id", Description = "Gets a Farm according to id",
-        OperationId = "GetsFarmById")]
-
-    public async Task<ActionResult> GetFarmByUserId(int userid)
+    
+    [HttpGet("users/{userId:int}/farms")]
+    public async Task<ActionResult<IEnumerable<FarmResource>>> ListByUserIdAsync(
+        int userId, CancellationToken ct = default)
     {
-        var getFarmByUserId = new GetFarmByUserId(userid);
-        var result = await farmQueryService.Handle(getFarmByUserId);
-        if (result is null) return NotFound();
-        var resource = FarmResourceFromEntityAssembler.ToResourceFromEntity(result);
-        return Ok(resource);
+        var farms = await farmQueryService.Handle(new GetAllFarmsByUserIdQuery(userId));
+
+        if (farms is null) return NotFound();              // null => problema aguas arriba
+        if (farms.Count == 0) return Ok(Array.Empty<FarmResource>());
+
+        var resources = farms.Select(FarmResourceFromEntityAssembler.ToResourceFromEntity);
+        return Ok(resources);
     }
     
 }

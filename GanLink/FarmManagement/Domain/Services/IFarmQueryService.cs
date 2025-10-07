@@ -5,7 +5,6 @@ namespace GanLink.FarmManagement.Domain.Services;
 
 public interface IFarmQueryService
 {
-    Task<IEnumerable<Farm>> Handle(GetAllFarmsQuery query);
     Task<Farm?> Handle(GetFarmByIdQuery query);
-    Task<Farm?> Handle(GetFarmByUserId query);
+    Task<IReadOnlyList<Farm>> Handle(GetAllFarmsByUserIdQuery query);
 }

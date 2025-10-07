@@ -30,6 +30,6 @@ public class UserRepository(GanLinkDBContext context) : BaseRepository<User>(con
 
     public async Task<List<Farm>> FindUserFarmById(int id)
     {
-        return await Context.Set<Farm>().Include(u => u.user).Where(f => f.user.Id == id).ToListAsync();
+        return await Context.Set<Farm>().Include(u => u.User).Where(f => f.User.Id == id).ToListAsync();
     }
 }
