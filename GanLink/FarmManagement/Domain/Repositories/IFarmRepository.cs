@@ -4,10 +4,23 @@ using System.Threading.Tasks;
 using GanLink.FarmManagement.Domain.Models.Aggregates;
 using GanLink.Shared.Domain.Repositories;
 
-public interface IFarmRepository : IBaseRepository<Farm>
+namespace GanLink.FarmManagement.Domain.Repositories
 {
-    Task<Farm?> GetByIdAsync(int id, CancellationToken ct = default);
-    Task<List<Farm>> ListByUserIdAsync(int userId, CancellationToken ct = default);
-    Task<Farm?> GetFirstByUserIdAsync(int userId, CancellationToken ct = default); // opcional
-    Task<bool> AliasExistsAsync(int userId, string alias, CancellationToken ct = default); // opcional
+    public interface IFarmRepository : IBaseRepository<Farm>
+    {
+        // --- Búsqueda por Id (inclúyelo solo si NO está en IBaseRepository) ---
+        Task<Farm?> GetByIdAsync(int id, CancellationToken ct = default);
+
+        // --- Lecturas múltiples ---
+        Task<IReadOnlyList<Farm>> ListByUserIdAsync(int userId, CancellationToken ct = default);
+        Task<IReadOnlyList<Farm>> ListByUserIdAsync(int userId, int page, int pageSize, CancellationToken ct = default);
+        Task<int> CountByUserIdAsync(int userId, CancellationToken ct = default);
+
+        // --- Lecturas singulares ---
+        Task<Farm?> FindFirstByUserIdAsync(int userId, CancellationToken ct = default);
+        Task<Farm?> FindByAliasAsync(int userId, string alias, CancellationToken ct = default);
+
+        // --- Validaciones ---
+        Task<bool> AliasExistsAsync(int userId, string alias, CancellationToken ct = default);
+    }
 }

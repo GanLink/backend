@@ -1,6 +1,10 @@
+using GanLink.FarmManagement.Application.Internal.CommandServices;
 using GanLink.FarmManagement.Application.Internal.QueryServices;
+using GanLink.FarmManagement.Domain.Repositories;
 using GanLink.FarmManagement.Domain.Services;
-using GanLink.FarmManagement.Infraestructure.Persistence.EF.Repositories;
+using GanLink.FarmManagement.Infraestructure.Persistence.EF;
+using GanLink.FarmManagement.Infraestructure.Persistence;
+using GanLink.FarmManagement.Infrastructure.Persistence.EFC.Repositories;
 using GanLink.IAM.Application.Internal.CommandServices;
 using GanLink.IAM.Application.Internal.OutboundServices;
 using GanLink.IAM.Application.Internal.QueryServices;
@@ -119,6 +123,11 @@ builder.Services.AddScoped<TimestampAudit>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserCommandService, UserCommandService>();
 builder.Services.AddScoped<IUserQueryService, UserQueryService>();
+
+// Farm Management
+builder.Services.AddScoped<IFarmRepository, FarmRepository>();
+builder.Services.AddScoped<IFarmCommandService, FarmCommandService>();
+builder.Services.AddScoped<IFarmQueryService, FarmQueryService>();
 
 // Shared Bounded Context Injection Configuration
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GanLink.FarmManagement.Domain.Models.Aggregates;
 using GanLink.IAM.Domain.Models.Aggregates;
 using GanLink.IAM.Domain.Repositories;
 using GanLink.Shared.Infrastructure.Persistence.EFC.Configuration;
@@ -26,6 +27,9 @@ public class UserRepository(GanLinkDBContext context) : BaseRepository<User>(con
     {
         return await  Context.Set<User>().FirstOrDefaultAsync(f => f.Username == username);
     }
-    
-    
+
+    public async Task<List<Farm>> FindUserFarmById(int id)
+    {
+        return await Context.Set<Farm>().Include(u => u.User).Where(f => f.User.Id == id).ToListAsync();
+    }
 }
