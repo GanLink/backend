@@ -2,11 +2,14 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using EntityFrameworkCore.CreatedUpdatedDate.Contracts;
 
-namespace GanLink.BovinueSystem.Domain.Models.Aggregates;
-
-public partial class Bovinue : IEntityWithCreatedUpdatedDate
+namespace GanLink.BovinueSystem.Domain.Models.Aggregates
 {
-    [Column("CreatedAt")] public DateTimeOffset? CreatedDate { get; set; }
-    [Column("UpdatedAt")] public DateTimeOffset? UpdatedDate { get; set; }
+    public partial class Bovinue : IEntityWithCreatedUpdatedDate
+    {
+        [Column("CreatedAt")] 
+        public DateTimeOffset? CreatedDate { get; set; }
+        
+        [Column("UpdatedAt")] 
+        public DateTimeOffset? UpdatedDate { get; set; }
+    }
 }
-

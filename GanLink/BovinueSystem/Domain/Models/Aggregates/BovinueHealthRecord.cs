@@ -3,62 +3,64 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using GanLink.BovinueSystem.Domain.Models.Commands;
 
-namespace GanLink.BovinueSystem.Domain.Models.Aggregates;
-
-public partial class BovinueHealthRecord
+namespace GanLink.BovinueSystem.Domain.Models.Aggregates
 {
-    protected BovinueHealthRecord()
+    public partial class BovinueHealthRecord
     {
-        deleted = false;
-    }
+        protected BovinueHealthRecord()
+        {
+            BovinueCHRId = 0;
+            BovinueId = 0;
+            StartDate = DateTime.UtcNow;
+            deleted = false;
+        }
 
-    public BovinueHealthRecord(CreateBovinueHealthRecordCommand command)
-    {
-        BovinueId   = command.bovinueId;
-        BovinueCHRId = command.bovinueCHRId;
-        StartDate   = command.startDate;
-        EndDate     = command.endDate;
-        deleted     = false;
-    }
+        public BovinueHealthRecord(CreateBovinueHealthRecordCommand command)
+        {
+            BovinueCHRId = command.bovinueCHRId;
+            BovinueId = command.bovinueId;
+            StartDate = command.startDate;
+            EndDate = command.endDate;
+            deleted = false;
+        }
 
-    public long Id { get; set; }
+        [Key]
+        public long Id { get; set; }
 
-    [Required]
-    public long BovinueId { get; set; }
+        [Required]
+        public long BovinueCHRId { get; set; } // FK to BovinueCattleHealthRecord
 
-    [ForeignKey("BovinueId")]
-    [Required]
-    public required Bovinue bovinue { get; set; }
+        [Required]
+        public long BovinueId { get; set; } // FK to Bovinue
 
-    [Required]
-    public long BovinueCHRId { get; set; }
+        [Required]
+        public DateTimeOffset? StartDate { get; set; }
 
-    [ForeignKey("BovinueCHRId")]
-    [Required]
-    public required BovinueCattleHealthRecord bovinueCHR { get; set; }
+        public DateTimeOffset? EndDate { get; set; }
 
-    [Required]
-    public DateTime StartDate { get; set; }
+        [Required]
+        public bool deleted { get; set; }
 
-    // EndDate puede ser null si el registro está “abierto”.
-    public DateTime? EndDate { get; set; }
+        // Navigation properties
+        [ForeignKey("BovinueId")]
+        public virtual Bovinue Bovinue { get; set; }
 
-    [Required]
-    public bool deleted { get; set; }
+        [ForeignKey("BovinueCHRId")]
+        public virtual BovinueCattleHealthRecord BovinueCattleHealthRecord { get; set; }
 
-    public void UpdateFromCommand(UpdateBovinueHealthRecordCommand command)
-    {
-        BovinueId    = command.bovinueId;
-        BovinueCHRId = command.bovinueCHRId;
-        StartDate    = command.startDate;
-        EndDate      = command.endDate;
-    }
+        public void UpdateFromCommand(UpdateBovinueHealthRecordCommand command)
+        {
+            BovinueCHRId = command.bovinueCHRId;
+            StartDate = command.startDate;
+            EndDate = command.endDate;
+        }
 
-    public void DeleteFromCommand(DeleteBovinueHealthRecordCommand command)
-    {
-        if (command.id != this.Id)
-            throw new InvalidOperationException("El id del comando no coincide con la entidad BovinueHealthRecord.");
+        public void DeleteFromCommand(DeleteBovinueHealthRecordCommand command)
+        {
+            if (command.id != this.Id)
+                throw new InvalidOperationException("El id del comando no coincide con la entidad.");
 
-        if (!deleted) deleted = true; // Idempotente
+            if (!deleted) deleted = true;
+        }
     }
 }

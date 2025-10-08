@@ -30,4 +30,7 @@ public partial class BovinueCattleHealthRecord
     [Required]
     public bool deleted { get; set; }
     
+    public virtual ICollection<BovinueHealthRecord> BovinueHealthRecords { get; set; }
 }
+    
+

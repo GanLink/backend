@@ -1,119 +1,89 @@
-using Agg = GanLink.BovinueSystem.Domain.Models.Aggregates;
-using Ent = GanLink.BovinueSystem.Domain.Models.Entities;
+using GanLink.BovinueSystem.Domain.Models.Aggregates;
 using Microsoft.EntityFrameworkCore;
 
-namespace GanLink.BovinueSystem.Infraestructure.Persistence.EF.Configuration.Extensions
+namespace GanLink.BovinueSystem.Infrastructure.Persistence.EF.Configuration.Extensions
 {
     public static class ModelBuilderExtensions
     {
         public static void ApplyBovinueSystemConfiguration(this ModelBuilder modelBuilder)
         {
-            // ================
-            // Bovinue (Agg)
-            // ================
-            modelBuilder.Entity<Agg.Bovinue>(b =>
+            // Bovinue configuration
+            modelBuilder.Entity<Bovinue>(entity =>
             {
-                b.HasKey(x => x.Id);
-                b.Property(x => x.Id).ValueGeneratedOnAdd();
-
-                /*b.HasOne(x => x.farm)
-                 .WithMany()
-                 .HasForeignKey(x => x.FarmId)
-                 .OnDelete(DeleteBehavior.Restrict);
-*/
-                b.HasQueryFilter(x => !x.deleted);
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.FarmId).IsRequired();
+                entity.Property(e => e.deleted).IsRequired().HasDefaultValue(false);
+                
+                entity.HasOne(e => e.farm)
+                    .WithMany()
+                    .HasForeignKey(e => e.FarmId)
+                    .IsRequired();
             });
 
-            // =========================
-            // Catálogo de métricas (Ent)
-            // =========================
-            modelBuilder.Entity<Agg.BovinueMetricCategory>(b =>
+            // BovinueHealthRecord configuration
+            modelBuilder.Entity<BovinueHealthRecord>(entity =>
             {
-                b.HasKey(x => x.Id);
-                b.Property(x => x.Id).ValueGeneratedOnAdd();
-                b.Property(x => x.Category).HasConversion<string>();
-
-                b.HasMany(c => c.Parameters)
-                 .WithOne(p => p.Category)
-                 .HasForeignKey(p => p.CategoryId)
-                 .OnDelete(DeleteBehavior.Restrict);
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.BovinueCHRId).IsRequired();
+                entity.Property(e => e.BovinueId).IsRequired();
+                entity.Property(e => e.StartDate).IsRequired();
+                entity.Property(e => e.deleted).IsRequired().HasDefaultValue(false);
+                
+                entity.HasOne(e => e.Bovinue)
+                    .WithMany(b => b.HealthRecords)
+                    .HasForeignKey(e => e.BovinueId);
+                
+                entity.HasOne(e => e.BovinueCattleHealthRecord)
+                    .WithMany(chr => chr.BovinueHealthRecords)
+                    .HasForeignKey(e => e.BovinueCHRId);
             });
 
-            modelBuilder.Entity<Agg.BovinueMetricParameter>(b =>
+            // BovinueMetric configuration
+            modelBuilder.Entity<BovinueMetric>(entity =>
             {
-                b.HasKey(x => x.Id);
-                b.Property(x => x.Id).ValueGeneratedOnAdd();
-                b.Property(x => x.Parameter).HasConversion<string>();
-
-                b.HasIndex(x => new { x.CategoryId, x.Parameter }).IsUnique();
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.BovinueMPId).IsRequired();
+                entity.Property(e => e.BovinueId).IsRequired();
+                entity.Property(e => e.Date).IsRequired();
+                entity.Property(e => e.Quantity).IsRequired();
+                entity.Property(e => e.deleted).IsRequired().HasDefaultValue(false);
+                
+                entity.HasOne(e => e.Bovinue)
+                    .WithMany(b => b.Metrics)
+                    .HasForeignKey(e => e.BovinueId);
+                
+                entity.HasOne(e => e.BovinueMetricParameter)
+                    .WithMany(mp => mp.Metrics)
+                    .HasForeignKey(e => e.BovinueMPId);
             });
 
-            // =========================
-            // Métricas por bovino (Agg)
-            // =========================
-            modelBuilder.Entity<Agg.BovinueMetric>(b =>
+            // BovinueCattleHealthRecord configuration (Dataset)
+            modelBuilder.Entity<BovinueCattleHealthRecord>(entity =>
             {
-                b.HasKey(x => x.Id);
-                b.Property(x => x.Id).ValueGeneratedOnAdd();
-                b.Property(x => x.Date).IsRequired();
-                b.Property(x => x.Quantity).IsRequired();
-
-                b.HasOne(x => x.bovinue)
-                 .WithMany()
-                 .HasForeignKey(x => x.BovinueId)
-                 .OnDelete(DeleteBehavior.Restrict);
-
-                b.HasOne(x => x.parameter)
-                 .WithMany()
-                 .HasForeignKey(x => x.BovinueMPId)
-                 .OnDelete(DeleteBehavior.Restrict);
-
-                b.HasIndex(x => new { x.BovinueId, x.BovinueMPId, x.Date }).IsUnique();
-                b.HasQueryFilter(x => !x.deleted);
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.ActivityName).IsRequired().HasMaxLength(200);
+                entity.Property(e => e.Frequency).IsRequired();
+                entity.Property(e => e.Description).HasMaxLength(500);
             });
 
-            // =========================
-            // Plantillas de salud (Agg)
-            // =========================
-            modelBuilder.Entity<Agg.BovinueCattleHealthRecord>(b =>
+            // BovinueMetricCategory configuration (Dataset)
+            modelBuilder.Entity<BovinueMetricCategory>(entity =>
             {
-                b.HasKey(x => x.Id);
-                b.Property(x => x.Id).ValueGeneratedOnAdd();
-
-                b.Property(x => x.ActivityName).IsRequired().HasMaxLength(50);
-                b.Property(x => x.Description).IsRequired().HasMaxLength(50);
-                b.Property(x => x.Frequency).IsRequired(); // mapea a columna "Frecuency" por [Column] en la entidad
-
-                b.HasQueryFilter(x => !x.deleted);
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Category).IsRequired().HasMaxLength(100);
             });
 
-            // =========================
-            // Registros de salud (Agg)
-            // =========================
-            modelBuilder.Entity<Agg.BovinueHealthRecord>(b =>
+            // BovinueMetricParameter configuration (Dataset)
+            modelBuilder.Entity<BovinueMetricParameter>(entity =>
             {
-                b.HasKey(x => x.Id);
-                b.Property(x => x.Id).ValueGeneratedOnAdd();
-
-                b.Property(x => x.StartDate).IsRequired();
-                b.Property(x => x.EndDate); // puede ser null (abierto)
-
-                b.HasOne(x => x.bovinue)
-                 .WithMany()
-                 .HasForeignKey(x => x.BovinueId)
-                 .OnDelete(DeleteBehavior.Restrict);
-
-                b.HasOne(x => x.bovinueCHR)
-                 .WithMany()
-                 .HasForeignKey(x => x.BovinueCHRId)
-                 .OnDelete(DeleteBehavior.Restrict);
-
-                // Solo un registro ABIERTO por bovino+plantilla
-                b.HasIndex(x => new { x.BovinueId, x.BovinueCHRId })
-                 .IsUnique()
-                 .HasFilter("[EndDate] IS NULL");
-
-                b.HasQueryFilter(x => !x.deleted);
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.CategoryId).IsRequired();
+                entity.Property(e => e.Parameter).IsRequired().HasMaxLength(100);
+                entity.Property(e => e.Description).HasMaxLength(500);
+                
+                entity.HasOne(e => e.Category)
+                    .WithMany(c => c.MetricParameters)
+                    .HasForeignKey(e => e.CategoryId);
             });
         }
     }
