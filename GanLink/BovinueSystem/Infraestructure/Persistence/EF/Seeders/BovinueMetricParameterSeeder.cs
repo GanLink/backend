@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using GanLink.BovinueSystem.Domain.Models.Aggregates;
+﻿using GanLink.BovinueSystem.Domain.Models.Aggregates;
 
-namespace GanLink.BovinueSystem.Infrastructure.Persistence.EF.Seeders
+namespace GanLink.BovinueSystem.Infraestructure.Persistence.EF.Seeders
 {
     public static class BovinueMetricParameterSeeder
     {

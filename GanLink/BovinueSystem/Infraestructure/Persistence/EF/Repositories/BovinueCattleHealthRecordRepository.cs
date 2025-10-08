@@ -11,7 +11,7 @@ namespace GanLink.BovinueSystem.Infrastructure.Persistence.EF.Repositories
 {
     public class BovinueCattleHealthRecordRepository : BaseRepository<BovinueCattleHealthRecord>, IBovinueCattleHealthRecordRepository
     {
-        public BovinueCattleHealthRecordRepository(GanLinkDBContext context) : base(context)
+        public BovinueCattleHealthRecordRepository(GanLinkDbContext context) : base(context)
         {
         }
 

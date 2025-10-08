@@ -12,7 +12,7 @@ namespace GanLink.FarmManagement.Infraestructure.Persistence.EF.Repositories
 {
     public class FarmRepository : BaseRepository<Farm>, IFarmRepository
     {
-        public FarmRepository(GanLinkDBContext context) : base(context) { }
+        public FarmRepository(GanLinkDbContext context) : base(context) { }
 
         // Suele usarse para modificar luego: devuélvelo con tracking
         public async Task<Farm?> GetByIdAsync(int id, CancellationToken ct = default)

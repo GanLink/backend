@@ -11,7 +11,7 @@ namespace GanLink.BovinueSystem.Infrastructure.Persistence.EF.Repositories
 {
     public class BovinueMetricCategoryRepository : BaseRepository<BovinueMetricCategory>, IBovinueMetricCategoryRepository
     {
-        public BovinueMetricCategoryRepository(GanLinkDBContext context) : base(context)
+        public BovinueMetricCategoryRepository(GanLinkDbContext context) : base(context)
         {
         }
 

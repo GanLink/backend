@@ -11,7 +11,7 @@ namespace GanLink.BovinueSystem.Infrastructure.Persistence.EF.Repositories
 {
     public class BovinueRepository : BaseRepository<Bovinue>, IBovinueRepository
     {
-        public BovinueRepository(GanLinkDBContext context) : base(context)
+        public BovinueRepository(GanLinkDbContext context) : base(context)
         {
         }
 

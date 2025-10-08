@@ -6,7 +6,7 @@ namespace GanLink.BovinueSystem.Domain.Models.Aggregates;
 
 public partial class BovinueCattleHealthRecord
 {
-    protected BovinueCattleHealthRecord()
+    protected internal BovinueCattleHealthRecord()
     {
         ActivityName = string.Empty;
         Description = string.Empty;

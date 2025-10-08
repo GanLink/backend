@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GanLink.IAM.Infraestructure.Persistence.EF.Repositories;
 
-public class UserRepository(GanLinkDBContext context) : BaseRepository<User>(context), IUserRepository
+public class UserRepository(GanLinkDbContext context) : BaseRepository<User>(context), IUserRepository
 {
     public async Task<User?> GetUserByIdAsync(int id)
     {

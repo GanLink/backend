@@ -12,7 +12,7 @@ namespace GanLink.BovinueSystem.Infrastructure.Persistence.EF.Repositories
 {
     public class BovinueHealthRecordRepository : BaseRepository<BovinueHealthRecord>, IBovinueHealthRecordRepository
     {
-        public BovinueHealthRecordRepository(GanLinkDBContext context) : base(context)
+        public BovinueHealthRecordRepository(GanLinkDbContext context) : base(context)
         {
         }
 

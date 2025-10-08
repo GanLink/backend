@@ -99,7 +99,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 if (connectionString == null) throw new InvalidOperationException("Connection string not found");
 
 //Add our DbContext connection to Dependency Injector
-builder.Services.AddDbContext<GanLinkDBContext>(options =>
+builder.Services.AddDbContext<GanLinkDbContext>(options =>
 {
     if (builder.Environment.IsDevelopment())
         options.UseMySQL(connectionString)
@@ -178,8 +178,9 @@ var app = builder.Build();
 //Add scope for our DbContext
 using (var scope = app.Services.CreateScope())
 {
-    var services = scope.ServiceProvider.GetRequiredService<GanLinkDBContext>();
+    var services = scope.ServiceProvider.GetRequiredService<GanLinkDbContext>();
     services.Database.EnsureCreated();
+    await DbSeeder.SeedAsync(services);
 }
 
 app.UseCors("AllowAll");
