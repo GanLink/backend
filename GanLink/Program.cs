@@ -103,7 +103,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 if (connectionString == null) throw new InvalidOperationException("Connection string not found");
 
 //Add our DbContext connection to Dependency Injector
-builder.Services.AddDbContext<GanLinkDBContext>(options =>
+builder.Services.AddDbContext<GanLinkDbContext>(options =>
 {
     if (builder.Environment.IsDevelopment())
         options.UseMySQL(connectionString)
@@ -145,13 +145,51 @@ builder.Services.AddScoped<IUserQueryService, UserQueryService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IHashingService, HashingService>();
 
+// Bovine System Bounded Context Dependency Injection Configuration
+// Repositories
+builder.Services.AddScoped<GanLink.BovinueSystem.Domain.Repositories.IBovinueRepository, 
+    GanLink.BovinueSystem.Infrastructure.Persistence.EF.Repositories.BovinueRepository>();
+builder.Services.AddScoped<GanLink.BovinueSystem.Domain.Repositories.IBovinueHealthRecordRepository, 
+    GanLink.BovinueSystem.Infrastructure.Persistence.EF.Repositories.BovinueHealthRecordRepository>();
+builder.Services.AddScoped<GanLink.BovinueSystem.Domain.Repositories.IBovinueMetricRepository, 
+    GanLink.BovinueSystem.Infrastructure.Persistence.EF.Repositories.BovinueMetricRepository>();
+builder.Services.AddScoped<GanLink.BovinueSystem.Domain.Repositories.IBovinueCattleHealthRecordRepository, 
+    GanLink.BovinueSystem.Infrastructure.Persistence.EF.Repositories.BovinueCattleHealthRecordRepository>();
+builder.Services.AddScoped<GanLink.BovinueSystem.Domain.Repositories.IBovinueMetricCategoryRepository, 
+    GanLink.BovinueSystem.Infrastructure.Persistence.EF.Repositories.BovinueMetricCategoryRepository>();
+builder.Services.AddScoped<GanLink.BovinueSystem.Domain.Repositories.IBovinueMetricParameterRepository, 
+    GanLink.BovinueSystem.Infrastructure.Persistence.EF.Repositories.BovinueMetricParameterRepository>();
+
+// Command Services
+builder.Services.AddScoped<GanLink.BovinueSystem.Domain.Services.IBovinueCommandService, 
+    GanLink.BovinueSystem.Application.Internal.CommandServices.BovinueCommandService>();
+builder.Services.AddScoped<GanLink.BovinueSystem.Domain.Services.IBovinueHealthRecordCommandService, 
+    GanLink.BovinueSystem.Application.Internal.CommandServices.BovinueHealthRecordCommandService>();
+builder.Services.AddScoped<GanLink.BovinueSystem.Domain.Services.IBovinueMetricCommandService, 
+    GanLink.BovinueSystem.Application.Internal.CommandServices.BovinueMetricCommandService>();
+
+// Query Services
+builder.Services.AddScoped<GanLink.BovinueSystem.Domain.Services.IBovinueQueryService, 
+    GanLink.BovinueSystem.Application.Internal.QueryServices.BovinueQueryService>();
+builder.Services.AddScoped<GanLink.BovinueSystem.Domain.Services.IBovinueHealthRecordQueryService, 
+    GanLink.BovinueSystem.Application.Internal.QueryServices.BovinueHealthRecordQueryService>();
+builder.Services.AddScoped<GanLink.BovinueSystem.Domain.Services.IBovinueMetricQueryService, 
+    GanLink.BovinueSystem.Application.Internal.QueryServices.BovinueMetricQueryService>();
+builder.Services.AddScoped<GanLink.BovinueSystem.Domain.Services.IBovinueCattleHealthRecordQueryService, 
+    GanLink.BovinueSystem.Application.Internal.QueryServices.BovinueCattleHealthRecordQueryService>();
+builder.Services.AddScoped<GanLink.BovinueSystem.Domain.Services.IBovinueMetricCategoryQueryService, 
+    GanLink.BovinueSystem.Application.Internal.QueryServices.BovinueMetricCategoryQueryService>();
+builder.Services.AddScoped<GanLink.BovinueSystem.Domain.Services.IBovinueMetricParameterQueryService, 
+    GanLink.BovinueSystem.Application.Internal.QueryServices.BovinueMetricParameterQueryService>();
+
 var app = builder.Build();
 
 //Add scope for our DbContext
 using (var scope = app.Services.CreateScope())
 {
-    var services = scope.ServiceProvider.GetRequiredService<GanLinkDBContext>();
+    var services = scope.ServiceProvider.GetRequiredService<GanLinkDbContext>();
     services.Database.EnsureCreated();
+    await DbSeeder.SeedAsync(services);
 }
 
 app.UseCors("AllowAll");

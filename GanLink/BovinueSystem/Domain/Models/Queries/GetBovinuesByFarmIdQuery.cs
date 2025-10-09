@@ -1,3 +1,3 @@
 ﻿namespace GanLink.BovinueSystem.Domain.Models.Queries;
 
-public record GetBovinuesByFarmIdQuery(long farmId);
+public record GetBovinuesByFarmIdQuery(int farmId);

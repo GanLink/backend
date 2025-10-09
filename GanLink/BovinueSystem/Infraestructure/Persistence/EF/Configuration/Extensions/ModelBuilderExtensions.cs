@@ -1,5 +1,4 @@
-using Agg = GanLink.BovinueSystem.Domain.Models.Aggregates;
-using Ent = GanLink.BovinueSystem.Domain.Models.Entities;
+using GanLink.BovinueSystem.Domain.Models.Aggregates;
 using Microsoft.EntityFrameworkCore;
 
 namespace GanLink.BovinueSystem.Infraestructure.Persistence.EF.Configuration.Extensions
@@ -8,112 +7,142 @@ namespace GanLink.BovinueSystem.Infraestructure.Persistence.EF.Configuration.Ext
     {
         public static void ApplyBovinueSystemConfiguration(this ModelBuilder modelBuilder)
         {
-            // ================
-            // Bovinue (Agg)
-            // ================
-            modelBuilder.Entity<Agg.Bovinue>(b =>
+            // =========================
+            // Bovinue
+            // =========================
+            modelBuilder.Entity<Bovinue>(entity =>
             {
-                b.HasKey(x => x.Id);
-                b.Property(x => x.Id).ValueGeneratedOnAdd();
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.FarmId).IsRequired();
+                entity.Property(e => e.deleted).IsRequired().HasDefaultValue(false);
 
-                /*b.HasOne(x => x.farm)
-                 .WithMany()
-                 .HasForeignKey(x => x.FarmId)
-                 .OnDelete(DeleteBehavior.Restrict);
-*/
-                b.HasQueryFilter(x => !x.deleted);
+                entity.HasOne(e => e.farm)
+                    .WithMany()
+                    .HasForeignKey(e => e.FarmId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_bov_farm");
+
+                entity.HasIndex(e => e.FarmId).HasDatabaseName("ix_bov_farm_id");
             });
 
             // =========================
-            // Catálogo de métricas (Ent)
+            // BovinueHealthRecord
             // =========================
-            modelBuilder.Entity<Agg.BovinueMetricCategory>(b =>
+            modelBuilder.Entity<BovinueHealthRecord>(entity =>
             {
-                b.HasKey(x => x.Id);
-                b.Property(x => x.Id).ValueGeneratedOnAdd();
-                b.Property(x => x.Category).HasConversion<string>();
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.BovinueCHRId).IsRequired();
+                entity.Property(e => e.BovinueId).IsRequired();
+                entity.Property(e => e.StartDate).IsRequired();
+                entity.Property(e => e.deleted).IsRequired().HasDefaultValue(false);
 
-                b.HasMany(c => c.Parameters)
-                 .WithOne(p => p.Category)
-                 .HasForeignKey(p => p.CategoryId)
-                 .OnDelete(DeleteBehavior.Restrict);
-            });
+                entity.HasOne(e => e.Bovinue)
+                    .WithMany(b => b.HealthRecords)
+                    .HasForeignKey(e => e.BovinueId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("fk_bhr_bovinue");
 
-            modelBuilder.Entity<Agg.BovinueMetricParameter>(b =>
-            {
-                b.HasKey(x => x.Id);
-                b.Property(x => x.Id).ValueGeneratedOnAdd();
-                b.Property(x => x.Parameter).HasConversion<string>();
+                entity.HasIndex(e => e.BovinueId).HasDatabaseName("ix_bhr_bovinue_id");
 
-                b.HasIndex(x => new { x.CategoryId, x.Parameter }).IsUnique();
-            });
+                entity.HasOne(e => e.BovinueCattleHealthRecord)
+                    .WithMany(chr => chr.BovinueHealthRecords)
+                    .HasForeignKey(e => e.BovinueCHRId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("fk_bhr_chr");
 
-            // =========================
-            // Métricas por bovino (Agg)
-            // =========================
-            modelBuilder.Entity<Agg.BovinueMetric>(b =>
-            {
-                b.HasKey(x => x.Id);
-                b.Property(x => x.Id).ValueGeneratedOnAdd();
-                b.Property(x => x.Date).IsRequired();
-                b.Property(x => x.Quantity).IsRequired();
-
-                b.HasOne(x => x.bovinue)
-                 .WithMany()
-                 .HasForeignKey(x => x.BovinueId)
-                 .OnDelete(DeleteBehavior.Restrict);
-
-                b.HasOne(x => x.parameter)
-                 .WithMany()
-                 .HasForeignKey(x => x.BovinueMPId)
-                 .OnDelete(DeleteBehavior.Restrict);
-
-                b.HasIndex(x => new { x.BovinueId, x.BovinueMPId, x.Date }).IsUnique();
-                b.HasQueryFilter(x => !x.deleted);
+                entity.HasIndex(e => e.BovinueCHRId).HasDatabaseName("ix_bhr_chr_id");
             });
 
             // =========================
-            // Plantillas de salud (Agg)
+            // BovinueMetric
             // =========================
-            modelBuilder.Entity<Agg.BovinueCattleHealthRecord>(b =>
+            modelBuilder.Entity<BovinueMetric>(entity =>
             {
-                b.HasKey(x => x.Id);
-                b.Property(x => x.Id).ValueGeneratedOnAdd();
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.BovinueMPId).IsRequired();
+                entity.Property(e => e.BovinueId).IsRequired();
+                entity.Property(e => e.Date).IsRequired();
+                entity.Property(e => e.Quantity).IsRequired();
+                entity.Property(e => e.deleted).IsRequired().HasDefaultValue(false);
 
-                b.Property(x => x.ActivityName).IsRequired().HasMaxLength(50);
-                b.Property(x => x.Description).IsRequired().HasMaxLength(50);
-                b.Property(x => x.Frequency).IsRequired(); // mapea a columna "Frecuency" por [Column] en la entidad
+                entity.HasOne(e => e.Bovinue)
+                    .WithMany(b => b.Metrics)
+                    .HasForeignKey(e => e.BovinueId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("fk_bm_bovinue");
 
-                b.HasQueryFilter(x => !x.deleted);
+                entity.HasIndex(e => e.BovinueId).HasDatabaseName("ix_bm_bovinue_id");
+
+                entity.HasOne(e => e.BovinueMetricParameter)
+                    .WithMany(mp => mp.Metrics)
+                    .HasForeignKey(e => e.BovinueMPId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("fk_bm_param");
+
+                entity.HasIndex(e => e.BovinueMPId).HasDatabaseName("ix_bm_param_id");
             });
 
             // =========================
-            // Registros de salud (Agg)
+            // BovinueCattleHealthRecord (Dataset)
+            //  - IDs fijos para seeders
+            //  - Longitudes consistentes
+            //  - Índice único para idempotencia
             // =========================
-            modelBuilder.Entity<Agg.BovinueHealthRecord>(b =>
+            modelBuilder.Entity<BovinueCattleHealthRecord>(entity =>
             {
-                b.HasKey(x => x.Id);
-                b.Property(x => x.Id).ValueGeneratedOnAdd();
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id).ValueGeneratedNever(); // IDs del seeder
+                entity.Property(e => e.ActivityName).IsRequired().HasMaxLength(200);
+                entity.Property(e => e.Frequency).IsRequired();
+                entity.Property(e => e.Description).IsRequired().HasMaxLength(500);
 
-                b.Property(x => x.StartDate).IsRequired();
-                b.Property(x => x.EndDate); // puede ser null (abierto)
+                entity.HasIndex(e => e.ActivityName)
+                      .IsUnique()
+                      .HasDatabaseName("ux_bchr_activity");
+            });
 
-                b.HasOne(x => x.bovinue)
-                 .WithMany()
-                 .HasForeignKey(x => x.BovinueId)
-                 .OnDelete(DeleteBehavior.Restrict);
+            // =========================
+            // BovinueMetricCategory (Dataset)
+            //  - IDs fijos
+            //  - Unique por Category
+            // =========================
+            modelBuilder.Entity<BovinueMetricCategory>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id).ValueGeneratedNever(); // IDs del seeder
+                entity.Property(e => e.Category).IsRequired().HasMaxLength(100);
 
-                b.HasOne(x => x.bovinueCHR)
-                 .WithMany()
-                 .HasForeignKey(x => x.BovinueCHRId)
-                 .OnDelete(DeleteBehavior.Restrict);
+                entity.HasIndex(e => e.Category)
+                      .IsUnique()
+                      .HasDatabaseName("ux_bmc_category");
+            });
 
-                // Solo un registro ABIERTO por bovino+plantilla
-                b.HasIndex(x => new { x.BovinueId, x.BovinueCHRId })
-                 .IsUnique()
-                 .HasFilter("[EndDate] IS NULL");
+            // =========================
+            // BovinueMetricParameter (Dataset)
+            //  - IDs fijos
+            //  - Unique por (CategoryId, Parameter)
+            //  - FK con nombre corto
+            // =========================
+            modelBuilder.Entity<BovinueMetricParameter>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id).ValueGeneratedNever(); // IDs del seeder
+                entity.Property(e => e.CategoryId).IsRequired();
+                entity.Property(e => e.Parameter).IsRequired().HasMaxLength(100);
+                entity.Property(e => e.Description).HasMaxLength(500);
 
-                b.HasQueryFilter(x => !x.deleted);
+                entity.HasOne(e => e.Category)
+                    .WithMany(c => c.MetricParameters)
+                    .HasForeignKey(e => e.CategoryId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("fk_bmp_category");
+
+                // Índices
+                entity.HasIndex(e => e.CategoryId).HasDatabaseName("ix_bmp_category_id");
+
+                entity.HasIndex(e => new { e.CategoryId, e.Parameter })
+                      .IsUnique()
+                      .HasDatabaseName("ux_bmp_cat_param");
             });
         }
     }

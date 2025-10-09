@@ -1,54 +1,33 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using GanLink.BovinueSystem.Domain.Models.ValueObjects;
 
-namespace GanLink.BovinueSystem.Domain.Models.Aggregates;
-
-public partial class BovinueMetricParameter
+namespace GanLink.BovinueSystem.Domain.Models.Aggregates
 {
-
-    public long Id { get; set; }
-    
-    public long CategoryId { get; set; }
-    public BovinueMetricCategory Category { get; set; }
-    
-    public MetricParameter Parameter { get; set; } 
-
-    public string Description { get; set; } = string.Empty;
-
-    public BovinueMetricParameter() {}
-    
-    public BovinueMetricParameter(long categoryId, string parameter, string? description = null)
+    // DATASET - Solo lectura, sin métodos de comando
+    public partial class BovinueMetricParameter
     {
-        ReassignCategory(categoryId);
-        ReassignParameter(parameter);
-        ReassignDescription(description);
-    }
-    
-    public void ReassignCategory(long categoryId)
-    {
-        if (categoryId <= 0)
-            throw new ArgumentOutOfRangeException(nameof(categoryId), "CategoryId debe ser > 0.");
+        [Key]
+        public long Id { get; set; }
 
-        CategoryId = categoryId;
-    }
-    
-    public void ReassignParameter(string parameter)
-    {
-        if (string.IsNullOrWhiteSpace(parameter))
-            throw new ArgumentException("Parameter es requerido.", nameof(parameter));
+        [Required]
+        public long CategoryId { get; set; } // FK to BovinueMetricCategory
 
-        parameter = parameter.Trim();
-        if (parameter.Length > 160)
-            throw new ArgumentException("Parameter excede 160 caracteres.", nameof(parameter));
+        [Required]
+        [StringLength(100)]
+        public string Parameter { get; set; }
 
-    }
+        [StringLength(500)]
+        public string Description { get; set; }
 
-    public void ReassignDescription(string? description)
-    {
-        var d = (description ?? string.Empty).Trim();
-        if (d.Length > 280)
-            throw new ArgumentException("Description excede 280 caracteres.", nameof(description));
+        [Required]
+        public bool deleted { get; set; } // Asegurarse de que sea público
 
-        Description = d;
+        // Navigation properties
+        [ForeignKey("CategoryId")]
+        public virtual BovinueMetricCategory Category { get; set; }
+
+        public virtual ICollection<BovinueMetric> Metrics { get; set; }
     }
 }

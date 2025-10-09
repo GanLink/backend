@@ -1,11 +1,9 @@
-﻿
-using System;
-
-namespace GanLink.BovinueSystem.Domain.Models.Commands;
+﻿namespace GanLink.BovinueSystem.Domain.Models.Commands;
 
 public record UpdateBovinueHealthRecordCommand(
-    long bovinueId,
+    long id,
     long bovinueCHRId,
-    DateTime startDate,
-    DateTime? endDate
-);
+    long bovinueId,
+    DateTimeOffset? startDate,
+    DateTimeOffset? endDate
+    );

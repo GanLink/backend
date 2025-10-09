@@ -4,45 +4,49 @@ using System.ComponentModel.DataAnnotations.Schema;
 using GanLink.BovinueSystem.Domain.Models.Commands;
 using GanLink.FarmManagement.Domain.Models.Aggregates;
 
-namespace GanLink.BovinueSystem.Domain.Models.Aggregates;
-
-public partial class Bovinue
+namespace GanLink.BovinueSystem.Domain.Models.Aggregates
 {
-    protected Bovinue()
+    public partial class Bovinue
     {
-        FarmId = 0;
-        deleted = false;
-    }
+        protected Bovinue()
+        {
+            FarmId = 0;
+            deleted = false;
+        }
 
-    public Bovinue(CreateBovinueCommand command)
-    {
-        FarmId = command.farmId;
-        deleted = false;
-    }
+        public Bovinue(CreateBovinueCommand command)
+        {
+            FarmId = command.farmId;
+            deleted = false;
+        }
 
-    public long Id { get; set; }
+        [Key]
+        public long Id { get; set; }
 
-    [Required]
-    public long FarmId { get; set; }
+        [Required]
+        public int FarmId { get; set; }
 
-    [ForeignKey("FarmId")]
-    [Required]
-    public required Farm farm { get; set; }
+        [ForeignKey("FarmId")]
+        public virtual Farm farm { get; set; }
 
-    [Required]
-    public bool deleted { get; set; }
+        [Required]
+        public bool deleted { get; set; }
 
-    public void UpdateFromCommand(UpdateBovinueCommand command)
-    {
-        FarmId = command.farmId;
-    }
+        // Navigation properties
+        public virtual ICollection<BovinueHealthRecord> HealthRecords { get; set; }
+        public virtual ICollection<BovinueMetric> Metrics { get; set; }
 
-    public void DeleteFromCommand(DeleteBovinueCommand command)
-    {
-        // Defensa contra inconsistencias (ruta vs payload o mensajes mal formados)
-        if (command.id != this.Id)
-            throw new InvalidOperationException("El id del comando no coincide con la entidad Bovinue.");
+        public void UpdateFromCommand(UpdateBovinueCommand command)
+        {
+            FarmId = command.farmId;
+        }
 
-        if (!deleted) deleted = true; // idempotente
+        public void DeleteFromCommand(DeleteBovinueCommand command)
+        {
+            if (command.id != this.Id)
+                throw new InvalidOperationException("El id del comando no coincide con la entidad Bovinue.");
+
+            if (!deleted) deleted = true;
+        }
     }
 }

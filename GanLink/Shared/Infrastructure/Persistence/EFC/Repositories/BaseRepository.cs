@@ -21,12 +21,12 @@ using Microsoft.EntityFrameworkCore;
 /// </typeparam>
 public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
 {
-    protected readonly GanLinkDBContext Context;
+    protected readonly GanLinkDbContext Context;
 
     /// <summary>
     ///     Default constructor for the base repository
     /// </summary>
-    protected BaseRepository(GanLinkDBContext context)
+    protected BaseRepository(GanLinkDbContext context)
     {
         Context = context;
     }

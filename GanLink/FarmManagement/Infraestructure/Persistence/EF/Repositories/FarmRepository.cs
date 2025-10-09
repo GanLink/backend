@@ -12,7 +12,7 @@ namespace GanLink.FarmManagement.Infrastructure.Persistence.EFC.Repositories
 {
     public class FarmRepository : BaseRepository<Farm>, IFarmRepository
     {
-        public FarmRepository(GanLinkDBContext context) : base(context) { }
+        public FarmRepository(GanLinkDbContext context) : base(context) { }
 
         private DbSet<Farm> Farms => Context.Set<Farm>();
 

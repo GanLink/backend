@@ -6,7 +6,7 @@ namespace GanLink.BovinueSystem.Domain.Models.Aggregates;
 
 public partial class BovinueCattleHealthRecord
 {
-    protected BovinueCattleHealthRecord()
+    protected internal BovinueCattleHealthRecord()
     {
         ActivityName = string.Empty;
         Description = string.Empty;
@@ -30,4 +30,7 @@ public partial class BovinueCattleHealthRecord
     [Required]
     public bool deleted { get; set; }
     
+    public virtual ICollection<BovinueHealthRecord> BovinueHealthRecords { get; set; }
 }
+    
+
