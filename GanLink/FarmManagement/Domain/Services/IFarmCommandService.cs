@@ -8,5 +8,9 @@ public interface IFarmCommandService
 {
     Task<Farm?> Handle(CreateFarmCommand command);
 
+    /// <summary>
+    /// Maneja la lógica para eliminar un Farm.
+    /// </summary>
+    /// <param name="command">El comando que contiene el ID del Farm a eliminar.</param>
     Task Handle(DeleteFarmCommand command);
 }

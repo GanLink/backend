@@ -1,4 +1,6 @@
 ﻿using System.Net.Mime;
+using GanLink.FarmManagement.Application.Exceptions;
+using GanLink.FarmManagement.Domain.Models.Commands;
 using GanLink.FarmManagement.Domain.Models.Queries;
 using GanLink.FarmManagement.Domain.Services;
 using GanLink.FarmManagement.Interfaces.REST.Resources;
@@ -47,15 +49,39 @@ public class FarmController(
         var resource = FarmResourceFromEntityAssembler.ToResourceFromEntity(result);
         return Ok(resource);
     }
-    [HttpDelete("delete")]
-    [SwaggerOperation(Summary = "Delete a Farm according to id", Description = "Delete a Farm according to id",
-        OperationId = "DeleteFarmById")]
 
-    public async Task<ActionResult> DeleteFarmById([FromBody]DeleteFarmResource resource)
+
+
+    [HttpDelete("{id}")]
+
+
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> DeleteFarm(int id)
     {
-        var deleteFarmById = DeleteFarmCommandFromResourceAssembler.ToCommandFromEntity(resource);
-        await farmCommandService.Handle(deleteFarmById);
-        return Ok();
+        try
+        {
+            var command = new DeleteFarmCommand(id);
+            await farmCommandService.Handle(command);
+
+            // Esta llamada se mapea al Status204NoContent
+            return NoContent(); 
+        }
+        catch (FarmNotFoundException ex)
+        {
+            // Esta llamada se mapea al Status404NotFound
+            return NotFound(ex.Message); 
+        }
+        catch (Exception ex)
+        {
+            // Loguea tu excepción (ex) aquí...
+        
+            // Esto se mapea al Status500InternalServerError
+            return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado.");
+        }
     }
     
     [HttpGet("users/{userId:int}/farms")]

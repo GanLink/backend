@@ -1,3 +1,7 @@
 ﻿namespace GanLink.FarmManagement.Domain.Models.Commands;
 
-public record DeleteFarmCommand(int farmId);
+/// <summary>
+/// Representa el comando para eliminar un Farm.
+/// </summary>
+/// <param name="FarmId">El ID del Farm que se desea eliminar.</param>
+public record DeleteFarmCommand(int FarmId);

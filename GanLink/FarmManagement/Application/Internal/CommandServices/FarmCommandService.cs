@@ -1,4 +1,5 @@
 ﻿using Cortex.Mediator.Infrastructure;
+using GanLink.FarmManagement.Application.Exceptions;
 using GanLink.FarmManagement.Domain.Models.Aggregates;
 using GanLink.FarmManagement.Domain.Models.Commands;
 using GanLink.FarmManagement.Domain.Repositories;
@@ -32,20 +33,27 @@ public class FarmCommandService(IFarmRepository repository, IUserRepository user
         return farm;
     }
 
+    /// <summary>
+    /// Implementación del handler para eliminar un Farm.
+    /// </summary>
     public async Task Handle(DeleteFarmCommand command)
     {
-        var farmId = await repository.FindByIdAsync(command.farmId);
-        if (farmId == null) throw new Exception("Farm not found");
+        // 1. Buscar la entidad a eliminar
+        var farmToDelete = await repository.FindByIdAsync(command.FarmId);
 
-        try
+        // 2. Proteger la lógica (Guard Clause)
+        // ¡Nunca borres algo que no existe!
+        if (farmToDelete == null)
         {
-            repository.Remove(farmId);
-            await unitOfWork.CompleteAsync();
+            // Lanza una excepción específica que la API pueda
+            // entender y traducir a un 404 Not Found.
+            throw new FarmNotFoundException(command.FarmId);
         }
-        catch (Exception e)
-        {
-            throw new Exception("Error deleting farm", e);
-        }
-        
+
+        // 3. Ejecutar la acción
+        repository.Remove(farmToDelete);
+
+        // 4. Persistir los cambios en la transacción
+        await unitOfWork.CompleteAsync();
     }
 }
