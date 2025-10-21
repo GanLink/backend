@@ -14,7 +14,7 @@ public partial class Farm
         SetOwnerDni(ownerDni);
 
         UserId = userId;
-        MainActivity = mainActivity;
+        SetMainActivity(mainActivity);
     }
 
     // Conveniencia: desde el comando
@@ -31,7 +31,8 @@ public partial class Farm
 
     public int UserId { get; private set; }
 
-    [Required]
+    [Required(ErrorMessage = "La 'MainActivity' es obligatoria.")]
+    [EnumDataType(typeof(Activity), ErrorMessage = "El valor proporcionado para 'MainActivity' no es válido.")]
     public Activity MainActivity { get; private set; }
 
     // Perú: 8 dígitos
@@ -56,6 +57,25 @@ public partial class Farm
             throw new ArgumentException("OwnerDNI debe tener 8 dígitos.", nameof(dni));
         OwnerDni = dni;
     }
+    
+    
+    public void SetMainActivity(Activity activity)
+    {
+        
+        if (!Enum.IsDefined(typeof(Activity), activity))
+        {
+            throw new ArgumentOutOfRangeException(nameof(activity), 
+                $"El valor '{(int)activity}' no es una actividad principal (MainActivity) válida.");
+        }
+    
+        MainActivity = activity;
+    }
 
-    public void ChangeMainActivity(Activity activity) => MainActivity = activity;
+    public void ChangeMainActivity(Activity activity)
+    {
+        SetMainActivity(activity); // <-- ¡CAMBIO AQUÍ!
+    
+        
+    }
+    
 }
