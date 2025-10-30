@@ -9,6 +9,7 @@ public static class CreateFarmCommandFromResourceAssembler
     {
         return new CreateFarmCommand(
             resource.Alias,
+            resource.Description,
             resource.UserId,
             resource.MainActivity,
             resource.OwnerDni

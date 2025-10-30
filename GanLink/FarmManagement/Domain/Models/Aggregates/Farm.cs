@@ -8,9 +8,10 @@ namespace GanLink.FarmManagement.Domain.Models.Aggregates;
 public partial class Farm
 {
     // Ctor principal (dominio)
-    public Farm(string alias, int userId, Activity mainActivity, string ownerDni)
+    public Farm(string alias, string description, int userId, Activity mainActivity, string ownerDni)
     {
         SetAlias(alias);
+        SetDescription(description);
         SetOwnerDni(ownerDni);
 
         UserId = userId;
@@ -19,7 +20,7 @@ public partial class Farm
 
     // Conveniencia: desde el comando
     public Farm(CreateFarmCommand command)
-        : this(command.Alias, command.UserId, command.MainActivity, command.OwnerDni) { }
+        : this(command.Alias, command.Description, command.UserId, command.MainActivity, command.OwnerDni) { }
 
     // EF Core necesita esto (mejor protegido)
     protected Farm() { }
@@ -28,6 +29,9 @@ public partial class Farm
 
     [Required, StringLength(120)]
     public string Alias { get; private set; } = null!;
+
+    [Required, StringLength(500)] 
+    public string Description { get; private set; } = null!;
 
     public int UserId { get; private set; }
 
@@ -49,6 +53,13 @@ public partial class Farm
         if (string.IsNullOrWhiteSpace(alias))
             throw new ArgumentException("Alias no puede estar vacío.", nameof(alias));
         Alias = alias.Trim();
+    }
+
+    public void SetDescription(string description)
+    {
+        if (string.IsNullOrWhiteSpace(description))
+            throw new ArgumentException("Description no puede estar vacio.", nameof(description));
+        Description = description.Trim();
     }
 
     public void SetOwnerDni(string dni)

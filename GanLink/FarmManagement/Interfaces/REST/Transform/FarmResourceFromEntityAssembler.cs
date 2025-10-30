@@ -13,6 +13,7 @@ public static class FarmResourceFromEntityAssembler
         return new FarmResource(
             f.Id,
             f.Alias,
+            f.Description,
             f.UserId,
             f.MainActivity.ToString(),
             f.OwnerDni

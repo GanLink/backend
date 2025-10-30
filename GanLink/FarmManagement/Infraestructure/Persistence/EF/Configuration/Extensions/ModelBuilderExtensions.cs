@@ -21,6 +21,10 @@ namespace GanLink.FarmManagement.Infraestructure.Persistence.EF.Configuration.Ex
             b.Property(x => x.Alias)
                 .IsRequired()
                 .HasMaxLength(80);
+            
+            b.Property(x => x.Description)
+                .IsRequired()
+                .HasMaxLength(256);
 
             b.Property(x => x.UserId)
                 .IsRequired();
