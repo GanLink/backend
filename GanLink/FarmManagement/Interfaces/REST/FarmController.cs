@@ -7,7 +7,10 @@ using GanLink.FarmManagement.Interfaces.REST.Resources;
 using GanLink.FarmManagement.Interfaces.REST.Transform;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-
+using System.Threading; // ¡Importante!
+using System.Collections.Generic; // ¡Importante!
+using System.Threading.Tasks; // ¡Importante!
+using Microsoft.AspNetCore.Http; // ¡Importante!
 namespace GanLink.FarmManagement.Interfaces.REST;
 
 [ApiController]
@@ -95,6 +98,57 @@ public class FarmController(
 
         var resources = farms.Select(FarmResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(resources);
+    }
+    
+    // --- NUEVO ENDPOINT PARA SUBIR IMAGEN ---
+    
+    /// <summary>
+    /// Sube o actualiza la imagen de perfil de una granja.
+    /// </summary>
+    /// <remarks>
+    /// Esta operación acepta un archivo de imagen (multipart/form-data)
+    /// y lo asocia con la granja especificada por el ID.
+    /// </remarks>
+    /// <param name="id">El ID de la granja (int).</param>
+    /// <param name="imageFile">El archivo de imagen a subir (IFormFile).</param>
+    [HttpPost("{id:int}/image")]
+    [Consumes("multipart/form-data")] // Especifica que este endpoint espera un formulario con archivos
+    [SwaggerOperation(
+        Summary = "Upload an image for a farm",
+        Description = "Uploads or replaces the profile image for a specific farm.",
+        OperationId = "UploadFarmImage")]
+    [ProducesResponseType(typeof(object), StatusCodes.Status200OK)] // Devuelve un JSON con la URL
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> UploadFarmImage(int id,  IFormFile imageFile)
+    {
+        try
+        {
+            // 1. Creamos el comando
+            var command = new UploadFarmImageCommand(id, imageFile);
+            
+            // 2. Lo pasamos al servicio de comandos
+            var imageUrl = await farmCommandService.Handle(command);
+
+            // 3. Devolvemos la URL
+            return Ok(new { imageUrl = imageUrl });
+        }
+        catch (FarmNotFoundException ex)
+        {
+            // Si el ID de la granja no existe
+            return NotFound(ex.Message);
+        }
+        catch (ArgumentException ex)
+        {
+            // Si el archivo es nulo, vacío, o hay un error de validación
+            return BadRequest(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            // Loguea tu excepción (ex) aquí...
+            return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado al procesar la imagen.");
+        }
     }
     
 }

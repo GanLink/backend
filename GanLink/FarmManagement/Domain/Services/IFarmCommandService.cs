@@ -13,4 +13,12 @@ public interface IFarmCommandService
     /// </summary>
     /// <param name="command">El comando que contiene el ID del Farm a eliminar.</param>
     Task Handle(DeleteFarmCommand command);
+    
+    // --- NUEVO MÉTODO ---
+    /// <summary>
+    /// Maneja la subida de una imagen para una granja.
+    /// </summary>
+    /// <param name="command">El comando con el ID y el archivo.</param>
+    /// <returns>La URL pública de la imagen guardada.</returns>
+    Task<string> Handle(UploadFarmImageCommand command);
 }

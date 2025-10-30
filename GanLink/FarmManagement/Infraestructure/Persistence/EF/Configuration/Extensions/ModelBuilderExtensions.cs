@@ -20,14 +20,20 @@ namespace GanLink.FarmManagement.Infraestructure.Persistence.EF.Configuration.Ex
 
             b.Property(x => x.Alias)
                 .IsRequired()
-                .HasMaxLength(80);
+                .HasMaxLength(120);
             
             b.Property(x => x.Description)
                 .IsRequired()
-                .HasMaxLength(256);
+                .HasMaxLength(500);
 
             b.Property(x => x.UserId)
                 .IsRequired();
+            
+            // --- NUEVO ---
+            // Configuración para la URL de la imagen
+            b.Property(x => x.ImageUrl)
+                .IsRequired(false) // Es opcional (nullable)
+                .HasMaxLength(1024); // Longitud para una URL larga
 
             // Mapear enum Activity (CARNE, LECHE, GENERICA)
             // Usa string para legibilidad o int si prefieres compacidad.

@@ -46,6 +46,9 @@ public partial class Farm
 
     // Navegación (por convención FK = UserId)
     public required User User { get; set; } = null!;
+    
+    [StringLength(1024)]
+    public string? ImageUrl { get; private set; }
 
     // --- Comportamientos del agregado ---
     public void SetAlias(string alias)
@@ -87,6 +90,19 @@ public partial class Farm
         SetMainActivity(activity); // <-- ¡CAMBIO AQUÍ!
     
         
+    }
+    
+    public void SetImageUrl(string imageUrl)
+    {
+        if (string.IsNullOrWhiteSpace(imageUrl))
+        {
+            ImageUrl = null;
+            return;
+        }
+
+        if (imageUrl.Length > 1024)
+            throw new ArgumentException("La URL de la imagen es deamsiado larga.", nameof(imageUrl));
+        ImageUrl = imageUrl;
     }
     
 }

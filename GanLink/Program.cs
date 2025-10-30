@@ -87,7 +87,7 @@ builder.Services.AddSwaggerGen(options =>
 
 //Add Controllers for manage our classes
 builder.Services.AddControllers();
-
+builder.Services.AddHttpContextAccessor(); // Necesario para FileSystemImageStorageService
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options => options.EnableAnnotations());
 
@@ -115,6 +115,9 @@ builder.Services.AddDbContext<GanLinkDbContext>(options =>
             .LogTo(Console.WriteLine, LogLevel.Error);
 });
 
+//Image
+builder.Services.AddScoped<GanLink.FarmManagement.Domain.Services.IImageStorageService, 
+    GanLink.FarmManagement.Infraestructure.Services.FileSystemImageStorageService>();
 // Shared
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<TimestampAudit>();
@@ -183,6 +186,8 @@ builder.Services.AddScoped<GanLink.BovinueSystem.Domain.Services.IBovinueMetricP
     GanLink.BovinueSystem.Application.Internal.QueryServices.BovinueMetricParameterQueryService>();
 
 var app = builder.Build();
+
+app.UseStaticFiles(); // Esto sirve los archivos de la carpeta wwwroot
 
 //Add scope for our DbContext
 using (var scope = app.Services.CreateScope())
