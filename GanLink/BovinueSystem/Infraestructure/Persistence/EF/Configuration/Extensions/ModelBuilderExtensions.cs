@@ -99,6 +99,33 @@ namespace GanLink.BovinueSystem.Infraestructure.Persistence.EF.Configuration.Ext
                 entity.HasIndex(e => e.ActivityName)
                       .IsUnique()
                       .HasDatabaseName("ux_bchr_activity");
+                entity.HasIndex(e => e.ActivityName).HasDatabaseName("ix_bm_activity_name");
+                entity.HasData(
+                    new
+                    {
+                        Id = 1L,
+                        ActivityName = "Identificación Oficial (Aretado)",
+                        Frequency = 0, // una sola vez en la vida
+                        Description = "El arete con código único es la identidad del animal y base de trazabilidad.",
+                        deleted = false
+                    },
+                    new
+                    {
+                        Id = 2L,
+                        ActivityName = "Vacunación contra la Fiebre Aftosa",
+                        Frequency = -1, // periódica (según campañas SENASA)
+                        Description = "Previene enfermedad altamente contagiosa y asegura control sanitario nacional.",
+                        deleted = false
+                    },
+                    new
+                    {
+                        Id = 3L,
+                        ActivityName = "Vacunación contra la Brucelosis Bovina",
+                        Frequency = 0, // una sola vez en la vida (hembras 3–8 meses)
+                        Description = "Protege contra enfermedad reproductiva, inocuidad de leche y sanidad genética.",
+                        deleted = false
+                    }
+                );
             });
 
             // =========================
@@ -115,6 +142,13 @@ namespace GanLink.BovinueSystem.Infraestructure.Persistence.EF.Configuration.Ext
                 entity.HasIndex(e => e.Category)
                       .IsUnique()
                       .HasDatabaseName("ux_bmc_category");
+                entity.HasData(
+                    new { Id = 1L, Category = "Productivos (Leche)",    deleted = false },
+                    new { Id = 2L, Category = "Productivos (Carne)",    deleted = false },
+                    new { Id = 3L, Category = "Eficiencia Alimenticia", deleted = false },
+                    new { Id = 4L, Category = "Reproductivos / Preñez", deleted = false },
+                    new { Id = 5L, Category = "Genéticos",              deleted = false }
+                );
             });
 
             // =========================
@@ -143,6 +177,24 @@ namespace GanLink.BovinueSystem.Infraestructure.Persistence.EF.Configuration.Ext
                 entity.HasIndex(e => new { e.CategoryId, e.Parameter })
                       .IsUnique()
                       .HasDatabaseName("ux_bmp_cat_param");
+                entity.HasData(
+                    // Productivos (Leche)
+                    new { Id = 1L, CategoryId = 1L, Parameter = "Producción de leche por vaca/día", Description = "Nivel de rendimiento individual", deleted = false },
+                    new { Id = 2L, CategoryId = 1L, Parameter = "Contenido de grasa y proteína",    Description = "Calidad nutricional de la leche", deleted = false },
+
+                    // Productivos (Carne)
+                    new { Id = 3L, CategoryId = 2L, Parameter = "Ganancia de peso diaria (GMD)",    Description = "Crecimiento y eficiencia de engorde", deleted = false },
+
+                    // Eficiencia Alimenticia
+                    new { Id = 4L, CategoryId = 3L, Parameter = "Índice de conversión alimenticia", Description = "Eficiencia: kg de alimento necesarios para ganar 1 kg de peso", deleted = false },
+
+                    // Reproductivos / Preñez
+                    new { Id = 5L, CategoryId = 4L, Parameter = "Tasa de preñez",                   Description = "Porcentaje de vacas que quedan gestantes", deleted = false },
+                    new { Id = 6L, CategoryId = 4L, Parameter = "Tasa de concepción",               Description = "Éxito de preñez respecto a servicios realizados", deleted = false },
+
+                    // Genéticos
+                    new { Id = 7L, CategoryId = 5L, Parameter = "Árbol genealógico / pedigree",     Description = "Registro de linaje y control de consanguinidad", deleted = false }
+                );
             });
         }
     }
