@@ -8,8 +8,8 @@ namespace GanLink.BovinueSystem.Interfaces.REST.Transform
         public static CreateBovinueMetricCommand ToCommandFromResource(CreateMetricResource resource)
         {
             return new CreateBovinueMetricCommand(
-                resource.BovinueMPId,
                 resource.BovinueId,
+                resource.BovinueMPId,
                 resource.Date,
                 resource.Quantity
             );

@@ -1,8 +1,8 @@
 ﻿namespace GanLink.BovinueSystem.Interfaces.REST.Resources
 {
     public record CreateMetricResource(
-        long BovinueMPId,
         long BovinueId,
+        long BovinueMPId,
         DateTime Date,
         double Quantity
     );
